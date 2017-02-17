@@ -1,8 +1,11 @@
 package com.jvax.crawler;
+
 /**
- * This example demonstrates how to create secure connections with a custom SSL
- * context.
+ * 網路爬蟲參數檔
+ * 
  */
 public final class CrawlerParameter {
-    public final int PTT = 1;
+    public final static int PTT = 1;
+    public final static int Mobile01 = 2;
+    
 }

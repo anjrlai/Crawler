@@ -1,7 +1,7 @@
 package com.jvax.crawler;
 /**
- * This example demonstrates how to create secure connections with a custom SSL
- * context.
+ * 網路爬蟲介面
+ * 
  */
 public interface Crawler {
 
@@ -9,4 +9,3 @@ public interface Crawler {
     public String getTargetUrl();
     
 }
-
