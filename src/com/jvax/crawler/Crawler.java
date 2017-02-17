@@ -5,6 +5,8 @@ package com.jvax.crawler;
  */
 public interface Crawler {
 
+    // public void init();
+    // public String getResponse();
     public void setTargetUrl(String TargetUrl);
     public String getTargetUrl();
     
