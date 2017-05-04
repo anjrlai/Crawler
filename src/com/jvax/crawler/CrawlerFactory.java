@@ -10,7 +10,7 @@ import com.jvax.crawler.appledaily.*;
  */
 public abstract class CrawlerFactory {
 
-    public Crawler createCrawler(int CrawlerTypeID){
+    public static Crawler createCrawler(int CrawlerTypeID){
         switch(CrawlerTypeID)
         {
             case CrawlerParameter.PTT:
