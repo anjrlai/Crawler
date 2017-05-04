@@ -64,6 +64,13 @@ public class Reply {
 	{
 		return this.CrawledDate;
 	}
+	public String toString()
+	{
+		return ""+this.Tag+","+
+		""+this.UserId+""+
+		""+this.Content+","+
+		""+this.PostDate+"";
+	}
 	public String getInsertSQL()
 	{
 //		return "INSERT INTO `PTT`.`Topics` (`MD5Hash`, `PostDate`, `HTMLContent`, `HTMLContentLength`, `UserId`, `BoardName`, `Subject`, `Content`, `Url`, `ReplyCount`, `CrawledDate`) VALUES ("+

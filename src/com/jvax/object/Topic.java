@@ -33,6 +33,14 @@ public class Topic {
 	{
 		this.Replies = Replies;
 	}
+	public void addReply(Reply reply)
+	{
+		this.Replies.addElement(reply);
+	}
+	public boolean removeReply(Reply reply)
+	{
+		return this.Replies.removeElement(reply);
+	}
 	public Vector getReplies()
 	{
 		return this.Replies;
@@ -135,7 +143,16 @@ public class Topic {
 	}
 	
 	
-	
+	public String toString()
+	{
+		return ""+this.PostDate+","+
+		""+this.UserId+","+
+		""+this.BoardName+","+
+		""+this.Subject+","+
+		""+this.Url+","+
+		""+this.ReplyCount+","+
+		""+this.Content+"";
+	}	
 	public String getInsertSQL()
 	{
 //		return "INSERT INTO `PTT`.`Topics` (`MD5Hash`, `PostDate`, `HTMLContent`, `HTMLContentLength`, `UserId`, `BoardName`, `Subject`, `Content`, `Url`, `ReplyCount`, `CrawledDate`) VALUES ("+

@@ -1,6 +1,7 @@
 package com.jvax.test;
 import com.jvax.crawler.ptt.*;
 import com.jvax.crawler.*;
+import com.jvax.object.*;
 import com.jvax.command.*;
 import java.util.regex.*;
 
@@ -20,6 +21,10 @@ public class TestCrawler {
         crawler.execute(args[0]);
         else
         crawler.execute();
+        
+        System.out.println(crawler.getTopic());
+        for(int i = 0 ; i < crawler.getTopic().getReplyCount() ; i ++)
+            System.out.println(crawler.getTopic().getReplies().get(i));
     };
 
 }
