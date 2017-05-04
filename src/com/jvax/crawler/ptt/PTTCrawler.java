@@ -31,6 +31,7 @@ public class PTTCrawler extends Crawler{
      * 使用Regular Expression過濾網址
      */
     private String filterPattern = "https://www.ptt.cc[-a-zA-Z0-9+@#/=~_|.;]*";
+    private String MetasStr;
 
     /**
      * 初始化
@@ -90,25 +91,10 @@ public class PTTCrawler extends Crawler{
 		this.xmlDoc = Jsoup.parse(HTML);
         parseMetaData();
         parseContent();
+        parseReplies();
 
-        /**
-         * 抓出回文內容
-         */
-        Elements pushes = xmlDoc.select(this.reply_token);
-        this.setReplyCount(pushes.size());
-        for (Element push : pushes)
-        {
-			this.setReplyTag(push.select(this.reply_tag_token).text());
-			this.setReplyUserId(push.select(this.reply_userid_token).text());
-			String ReplyContent = push.select(this.reply_content_token).text();
-			ReplyContent=ReplyContent.replaceAll("'", "\"");
-			this.setReplyContent(ReplyContent);
-			this.setReplyPostDate(push.select(this.reply_postdate_token).text());
-			//----------------
-			this.setReplyCrawledDate();
-			this.addReply();
-        }
     }
+
     /**
      * 抓出上方Meta訊息
      */
@@ -118,7 +104,7 @@ public class PTTCrawler extends Crawler{
         String BoardStrData  = metas.eq(1).text().trim();
         String TitleStrData  = metas.eq(2).text().trim();
         String DateStrData   = metas.eq(3).text().trim();
-		String MetasStr = "作者"+metas.eq(0).text()+" 看板"+metas.eq(1).text()+" 標題"+metas.eq(2).text()+" 時間"+metas.eq(3).text();
+		MetasStr = "作者"+metas.eq(0).text()+" 看板"+metas.eq(1).text()+" 標題"+metas.eq(2).text()+" 時間"+metas.eq(3).text();
 
         this.setUserId(UserIdStrData);
         this.setBoardName(BoardStrData);
@@ -127,6 +113,7 @@ public class PTTCrawler extends Crawler{
         this.setPostDate(DateStrData);
         
     };
+
     /**
      * 抓出本文內容
      */
@@ -138,6 +125,27 @@ public class PTTCrawler extends Crawler{
         this.setContent(Content);
 
         this.setCrawledDate();
+    }
+
+    /**
+     * 抓出回文內容
+     */
+    private void parseReplies(){
+        Elements pushes = xmlDoc.select(this.reply_token);
+        this.setReplyCount(pushes.size());
+        for (Element push : pushes)
+        {
+			this.setReplyTag(push.select(this.reply_tag_token).text());
+			this.setReplyUserId(push.select(this.reply_userid_token).text());
+			String ReplyContent = push.select(this.reply_content_token).text();
+			ReplyContent=ReplyContent.replaceAll("'", "\"");
+			ReplyContent=ReplyContent.substring(1, ReplyContent.length());
+			this.setReplyContent(ReplyContent);
+			this.setReplyPostDate(push.select(this.reply_postdate_token).text());
+			//----------------
+			this.setReplyCrawledDate();
+			this.addReply();
+        }
     }
 
     private String skipMetaString(String Content, String MetaString){

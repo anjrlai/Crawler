@@ -129,8 +129,9 @@ public abstract class Crawler implements Command{
     /**
      * 抓取網頁內容回應
      */
-    protected String getResponse() throws IOException{
+    protected String getResponse() throws Exception{
 	try {
+            this.sleep(2000);
             this.httpget = new HttpGet(this.Url);
 
             this.response = this.httpclient.execute(httpget);
@@ -159,5 +160,14 @@ public abstract class Crawler implements Command{
     };
     public Topic getTopic(){
         return this.topic;
+    }
+    public final void sleep(long milliseconds) throws Exception 
+    {
+		try {
+		// thread to sleep for 1000 milliseconds
+			Thread.sleep(milliseconds);
+		} catch (Exception e) {
+			System.out.println(e);
+		}
     }
 }

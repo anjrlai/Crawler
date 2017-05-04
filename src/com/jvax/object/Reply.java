@@ -67,7 +67,7 @@ public class Reply {
 	public String toString()
 	{
 		return ""+this.Tag+","+
-		""+this.UserId+""+
+		""+this.UserId+","+
 		""+this.Content+","+
 		""+this.PostDate+"";
 	}

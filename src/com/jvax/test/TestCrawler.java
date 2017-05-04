@@ -1,9 +1,5 @@
 package com.jvax.test;
-import com.jvax.crawler.ptt.*;
 import com.jvax.crawler.*;
-import com.jvax.object.*;
-import com.jvax.command.*;
-import java.util.regex.*;
 
 /**
  * 測試網路爬蟲
@@ -17,14 +13,30 @@ public class TestCrawler {
     public static void main(String[] args) throws Exception{
         Crawler crawler = CrawlerFactory.createCrawler(CrawlerParameter.PTT);
         crawler.init();
-        if(args.length>0)
-        crawler.execute(args[0]);
-        else
+
+        /**
+         * 執行指令
+         */
+        // if(args.length>0)
+        // crawler.execute(args[0]);
+        // else
         crawler.execute();
         
+        /**
+         * 顯示除錯（抓取結果）
+         */
         System.out.println(crawler.getTopic());
         for(int i = 0 ; i < crawler.getTopic().getReplyCount() ; i ++)
             System.out.println(crawler.getTopic().getReplies().get(i));
+
+
+        crawler = CrawlerFactory.createCrawler(CrawlerParameter.Mobile01);
+        crawler.init();
+        crawler.execute();
+        System.out.println(crawler.getTopic());
+        for(int i = 0 ; i < crawler.getTopic().getReplyCount() ; i ++)
+            System.out.println(crawler.getTopic().getReplies().get(i));
+       
     };
 
 }
