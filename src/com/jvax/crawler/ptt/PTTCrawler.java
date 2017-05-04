@@ -12,7 +12,12 @@ import java.text.SimpleDateFormat;
  */
 public class PTTCrawler extends Crawler{
 
+    private Document xmlDoc;
+
     private String test_url              = "https://www.ptt.cc/bbs/Lifeismoney/M.1493871419.A.573.html";
+    /**
+     * PTT網站tokens
+     */
     private String terminate_token       = "※ 發信站";
     private String topic_meta_token      = "span.article-meta-value";
     private String article_content_token = "div#main-container";
@@ -33,17 +38,13 @@ public class PTTCrawler extends Crawler{
     public void init() throws Exception{
         super.init();
     }
-    protected void setUrl(String Url){
-        super.setUrl(Url);
-    }
-    protected String getResponse(){
-        try {
-                return super.getResponse();
-        } catch(Exception e) {
-        }
-        return null;
-    }
 
+    /**
+     * 指令組成Compose
+     * 過濾網址
+     * 設定網址
+     * 抓取網頁
+     */
     public void execute(){
         String Url=filterUrl(fetchUrl());
         setUrl(Url);
@@ -60,6 +61,17 @@ public class PTTCrawler extends Crawler{
         return this.test_url;
         
     };
+
+    protected void setUrl(String Url){
+        super.setUrl(Url);
+    }
+    protected String getResponse(){
+        try {
+                return super.getResponse();
+        } catch(Exception e) {
+        }
+        return null;
+    }
     /*
      * Only ptt.cc urls could be left;
      */
@@ -75,43 +87,15 @@ public class PTTCrawler extends Crawler{
         }
     }
     protected void parseHTML(String HTML){
-		Document xmlDoc = Jsoup.parse(HTML);
-		
-		
-        /**
-         * 抓出上方Meta訊息
-         */
-		Elements metas = xmlDoc.select(this.topic_meta_token);
-        String UserIdStrData = metas.eq(0).text().trim();
-        String BoardStrData  = metas.eq(1).text().trim();
-        String TitleStrData  = metas.eq(2).text().trim();
-        String DateStrData   = metas.eq(3).text().trim();
-		String MetasStr = "作者"+metas.eq(0).text()+" 看板"+metas.eq(1).text()+" 標題"+metas.eq(2).text()+" 時間"+metas.eq(3).text();
-
-
-        this.setUserId(UserIdStrData);
-        this.setBoardName(BoardStrData);
-        this.setSubject(TitleStrData);
-        // /*--- DateStrData Need to be Process!!!---*/
-        this.setPostDate(DateStrData);
-
-
-        /**
-         * 抓出本文內容
-         */
-		Elements cont = xmlDoc.select(this.article_content_token);
-		String Content = cont.text();
-		Content=skipMetaString(Content, MetasStr);
-		Content=parseContent(Content, terminate_token);
-        this.setContent(Content);
-
-        Elements pushes = xmlDoc.select(this.reply_token);
-        this.setReplyCount(pushes.size());
-        this.setCrawledDate();
+		this.xmlDoc = Jsoup.parse(HTML);
+        parseMetaData();
+        parseContent();
 
         /**
          * 抓出回文內容
          */
+        Elements pushes = xmlDoc.select(this.reply_token);
+        this.setReplyCount(pushes.size());
         for (Element push : pushes)
         {
 			this.setReplyTag(push.select(this.reply_tag_token).text());
@@ -125,11 +109,41 @@ public class PTTCrawler extends Crawler{
 			this.addReply();
         }
     }
+    /**
+     * 抓出上方Meta訊息
+     */
+    private void parseMetaData(){
+		Elements metas = xmlDoc.select(this.topic_meta_token);
+        String UserIdStrData = metas.eq(0).text().trim();
+        String BoardStrData  = metas.eq(1).text().trim();
+        String TitleStrData  = metas.eq(2).text().trim();
+        String DateStrData   = metas.eq(3).text().trim();
+		String MetasStr = "作者"+metas.eq(0).text()+" 看板"+metas.eq(1).text()+" 標題"+metas.eq(2).text()+" 時間"+metas.eq(3).text();
+
+        this.setUserId(UserIdStrData);
+        this.setBoardName(BoardStrData);
+        this.setSubject(TitleStrData);
+        // /*--- DateStrData Need to be Process!!!---*/
+        this.setPostDate(DateStrData);
+        
+    };
+    /**
+     * 抓出本文內容
+     */
+    private void parseContent(){
+		Elements cont = this.xmlDoc.select(this.article_content_token);
+		String Content = cont.text();
+		Content=skipMetaString(Content, MetasStr);
+		Content=chopContent(Content, terminate_token);
+        this.setContent(Content);
+
+        this.setCrawledDate();
+    }
 
     private String skipMetaString(String Content, String MetaString){
         return Content=(Content.indexOf(MetaString)>-1)?Content.substring(Content.indexOf(MetaString)+MetaString.length(), Content.length()):Content;
     }
-    private String parseContent(String Content, String terminate_token){
+    private String chopContent(String Content, String terminate_token){
         return Content=(Content.indexOf(terminate_token)>-1)?Content.substring(0, Content.indexOf(terminate_token)):Content;
     }
 }
