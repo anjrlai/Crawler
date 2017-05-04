@@ -11,28 +11,26 @@ public class TestCrawler {
      * 主程式進入點
      */
     public static void main(String[] args) throws Exception{
+        /**
+         * PTT爬蟲製造
+         */
         Crawler crawler = CrawlerFactory.createCrawler(CrawlerParameter.PTT);
-        crawler.init();
-
-        /**
-         * 執行指令
-         */
-        // if(args.length>0)
+        crawler.init();                /* 執行初始化 */
+        crawler.execute();             /* 顯示除錯（抓取結果）*/
         // crawler.execute(args[0]);
-        // else
-        crawler.execute();
-        
-        /**
-         * 顯示除錯（抓取結果）
-         */
+        // crawler.setBucket(FetchPttUrls);
         System.out.println(crawler.getTopic());
         for(int i = 0 ; i < crawler.getTopic().getReplyCount() ; i ++)
             System.out.println(crawler.getTopic().getReplies().get(i));
 
-
+        /**
+         * Mobile01爬蟲製造
+         */
         crawler = CrawlerFactory.createCrawler(CrawlerParameter.Mobile01);
-        crawler.init();
-        crawler.execute();
+        crawler.init();                /* 執行初始化 */
+        crawler.execute();             /* 顯示除錯（抓取結果）*/
+        // crawler.execute(args[0]);
+        // crawler.setBucket(FetchMobile01Urls);
         System.out.println(crawler.getTopic());
         for(int i = 0 ; i < crawler.getTopic().getReplyCount() ; i ++)
             System.out.println(crawler.getTopic().getReplies().get(i));
