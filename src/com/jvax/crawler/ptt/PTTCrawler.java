@@ -11,6 +11,9 @@ import java.text.SimpleDateFormat;
  * PTT網路爬蟲
  */
 public class PTTCrawler extends Crawler{
+
+
+    private String terminateToken = "※ 發信站";
     /**
      * 使用Regular Expression過濾網址
      */
@@ -38,6 +41,13 @@ public class PTTCrawler extends Crawler{
         setUrl(Url);
         parseHTML();
     };
+
+    public void execute(String Url){
+        Url=filterUrl(Url);
+        setUrl(Url);
+        parseHTML();
+    };
+
     private String fetchUrl(){
         return "https://www.ptt.cc/bbs/Lifeismoney/M.1492487566.A.966.html";
         
@@ -77,7 +87,7 @@ public class PTTCrawler extends Crawler{
 		Elements cont = xmlDoc.select("div#main-container");
 		String Content = cont.text();
 		Content=skipMetaString(Content, MetasStr);
-		Content=parseContent(Content, terminateKW);
+		Content=parseContent(Content, terminateToken);
         System.out.println(Content);
 
         /**
@@ -89,8 +99,7 @@ public class PTTCrawler extends Crawler{
     private String skipMetaString(String Content, String MetaString){
         return Content=(Content.indexOf(MetaString)>-1)?Content.substring(Content.indexOf(MetaString)+MetaString.length(), Content.length()):Content;
     }
-    private String parseContent(String Content, String terminateKW){
-        return Content=(Content.indexOf(terminateKW)>-1)?Content.substring(0, Content.indexOf(terminateKW)):Content;
+    private String parseContent(String Content, String terminateToken){
+        return Content=(Content.indexOf(terminateToken)>-1)?Content.substring(0, Content.indexOf(terminateToken)):Content;
     }
-    private String terminateKW = "※ 發信站";
 }

@@ -23,5 +23,6 @@ public class LineQCrawler extends Crawler{
     }
     public void parseHTML(String HTML){}
     public void execute(){};
+    public void execute(String Url){};
 
 }

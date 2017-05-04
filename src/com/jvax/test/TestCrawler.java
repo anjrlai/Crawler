@@ -16,8 +16,9 @@ public class TestCrawler {
     public static void main(String[] args) throws Exception{
         Crawler crawler = CrawlerFactory.createCrawler(CrawlerParameter.PTT);
         crawler.init();
-//        crawler.setUrl("https://www.ptt.cc/bbs/Lifeismoney/M.1492398287.A.783.html");
-//        crawler.parseHTML();
+        if(args.length>0)
+        crawler.execute(args[0]);
+        else
         crawler.execute();
     };
 
