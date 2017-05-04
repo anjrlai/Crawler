@@ -8,10 +8,8 @@ import com.jvax.command.*;
 public class Mobile01Crawler extends Crawler{
     
     public void init(){
-        System.out.println("Mobile01Crawler.init() exec!");
     }
     public String getResponse(){
-        System.out.println("Mobile01Crawler.getResponse() exec!");
         return null;
     }
     public void parseHTML(){

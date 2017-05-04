@@ -1,6 +1,6 @@
 package com.jvax.crawler;
 import com.jvax.object.*;
-import com.jvax.command.*;
+import com.jvax.command.Command;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.io.*;

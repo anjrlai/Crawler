@@ -8,10 +8,8 @@ import com.jvax.command.*;
 public class LineQCrawler extends Crawler{
     
     public void init(){
-        System.out.println("LineQCrawler.init() exec!");
     }
     public String getResponse(){
-        System.out.println("LineQCrawler.getResponse() exec!");
         return null;
     }
     public void parseHTML(){

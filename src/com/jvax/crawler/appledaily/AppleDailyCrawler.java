@@ -8,10 +8,8 @@ import com.jvax.command.*;
 public class AppleDailyCrawler extends Crawler{
     
     public void init(){
-        System.out.println("AppleDailyCrawler.init() exec!");
     }
     public String getResponse(){
-        System.out.println("AppleDailyCrawler.getResponse() exec!");
         return null;
     }
     public void parseHTML(){
