@@ -18,31 +18,17 @@ public class TestCrawler {
      */
     public static void main(String[] args) throws Exception{
 
-
         /**
          * 產製PTT爬蟲
          */
         Crawler crawler = CrawlerFactory.createCrawler(CrawlerParameter.PTT);
         crawler.init();                /* 執行初始化 */
-        crawler.crawlArticle();        /* 顯示除錯（抓取結果）*/
+        crawler.crawlArticle();        /* 文章爬蒐（抓取結果）*/
         // crawler.crawlArticle(args[0]);
         // crawler.setBucket(FetchPttUrls);
         System.out.println(crawler.getTopic());
-
-        // for(int i = 0 ; i < crawler.getTopic().getReplyCount() ; i ++)
-        //     System.out.println(crawler.getTopic().getReplies().get(i));
-
-        // /**
-        //  * 產製Mobile01爬蟲
-        //  */
-        // crawler = CrawlerFactory.createCrawler(CrawlerParameter.Mobile01);
-        // crawler.init();                /* 執行初始化 */
-        // crawler.crawlArticle();        /* 顯示除錯（抓取結果）*/
-        // // crawler.crawlArticle(args[0]);
-        // // crawler.setBucket(FetchMobile01Urls);
-        // System.out.println(crawler.getTopic());
-        // for(int i = 0 ; i < crawler.getTopic().getReplyCount() ; i ++)
-        //     System.out.println(crawler.getTopic().getReplies().get(i));
+        for(int i = 0 ; i < crawler.getTopic().getReplyCount() ; i ++)
+            System.out.println(crawler.getTopic().getReplies().get(i));
 
         /**
          * 產製XLS Layout
@@ -54,15 +40,31 @@ public class TestCrawler {
         format.setData(topics);
         format.setFileName();
 
+        /**
+         * 產製Mobile01爬蟲
+         */
+        crawler = CrawlerFactory.createCrawler(CrawlerParameter.Mobile01);
+        crawler.init();                /* 執行初始化 */
+        crawler.crawlArticle();        /* 文章爬蒐（抓取結果）*/
+        // crawler.crawlArticle(args[0]);
+        // crawler.setBucket(FetchMobile01Urls);
+        System.out.println(crawler.getTopic());
+        for(int i = 0 ; i < crawler.getTopic().getReplyCount() ; i ++)
+            System.out.println(crawler.getTopic().getReplies().get(i));
+
+        /**
+         * 產製PDF Layout
+         */
+
         format = FormatFactory.createFormat(FormatParameter.PDF);
+        topics = new Vector<Topic>();
+        topics.add(crawler.getTopic());
         format.setData(topics);
         format.setFileName();
-
-
-        // System.out.println(crawler.getTopic());
-        // format.setFileName(crawler.getTopic().getBoardName());
-        // ((XLSFormat)format).setFileName();
     };
+
+
+
 
     /**
      * 載入預設設定檔 config.properties
