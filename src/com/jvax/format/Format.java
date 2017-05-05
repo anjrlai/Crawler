@@ -1,9 +1,14 @@
 package com.jvax.format;
+import com.jvax.command.*;
+import com.jvax.object.*;
 /**
- * 網路爬蟲介面
+ * 格式介面
  * 
  */
-public interface Format {
+public abstract class Format implements FormatCommand{
 
+    public Topic getTopic(){
+        return null;
+    };
 
 }

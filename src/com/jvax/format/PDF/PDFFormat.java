@@ -4,7 +4,8 @@ import com.jvax.format.Format;
  * 網路爬蟲介面
  * 
  */
-public class PDFFormat implements Format{
+public class PDFFormat extends Format{
 
+    public void exportToFile(){};
 
 }

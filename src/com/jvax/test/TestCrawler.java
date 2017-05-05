@@ -1,5 +1,6 @@
 package com.jvax.test;
 import com.jvax.crawler.*;
+import com.jvax.format.*;
 
 /**
  * 測試網路爬蟲
@@ -12,7 +13,7 @@ public class TestCrawler {
      */
     public static void main(String[] args) throws Exception{
         /**
-         * PTT爬蟲製造
+         * 產製PTT爬蟲
          */
         Crawler crawler = CrawlerFactory.createCrawler(CrawlerParameter.PTT);
         crawler.init();                /* 執行初始化 */
@@ -24,7 +25,7 @@ public class TestCrawler {
             System.out.println(crawler.getTopic().getReplies().get(i));
 
         /**
-         * Mobile01爬蟲製造
+         * 產製Mobile01爬蟲
          */
         crawler = CrawlerFactory.createCrawler(CrawlerParameter.Mobile01);
         crawler.init();                /* 執行初始化 */
@@ -34,6 +35,11 @@ public class TestCrawler {
         System.out.println(crawler.getTopic());
         for(int i = 0 ; i < crawler.getTopic().getReplyCount() ; i ++)
             System.out.println(crawler.getTopic().getReplies().get(i));
+
+        /**
+         * 產製XLS Layout
+         */
+        Format format = FormatFactory.createFormat(FormatParameter.XLS);
        
     };
 

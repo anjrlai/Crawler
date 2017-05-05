@@ -4,9 +4,9 @@ package com.jvax.format;
  * 網路爬蟲工廠
  * 
  */
-public abstract class FormatFactory {
+public class FormatFactory {
 
-    public Format createFormat(int FormatTypeID){
+    public static Format createFormat(int FormatTypeID){
         switch(FormatTypeID)
         {
             case FormatParameter.XLS:
