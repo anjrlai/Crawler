@@ -54,7 +54,7 @@ public class Mobile01Crawler extends Crawler{
      * 設定網址
      * 抓取網頁
      */
-    public void execute(){
+    public void crawlArticle(){
         String Url=filterUrl(fetchUrl());
         setUrl(Url);
         parseHTML();
@@ -65,7 +65,7 @@ public class Mobile01Crawler extends Crawler{
          }
     };
 
-    public void execute(String Url){
+    public void crawlArticle(String Url){
         Url=filterUrl(Url);
         setUrl(Url);
         parseHTML();

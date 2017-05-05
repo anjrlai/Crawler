@@ -170,4 +170,6 @@ public abstract class Crawler implements Command{
 			System.out.println(e);
 		}
     }
+    public void crawlArticleList(){};
+    public void crawlArticleList(String Url){};
 }

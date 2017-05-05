@@ -16,8 +16,8 @@ public class TestCrawler {
          */
         Crawler crawler = CrawlerFactory.createCrawler(CrawlerParameter.PTT);
         crawler.init();                /* 執行初始化 */
-        crawler.execute();             /* 顯示除錯（抓取結果）*/
-        // crawler.execute(args[0]);
+        crawler.crawlArticle();        /* 顯示除錯（抓取結果）*/
+        // crawler.crawlArticle(args[0]);
         // crawler.setBucket(FetchPttUrls);
         System.out.println(crawler.getTopic());
         for(int i = 0 ; i < crawler.getTopic().getReplyCount() ; i ++)
@@ -28,8 +28,8 @@ public class TestCrawler {
          */
         crawler = CrawlerFactory.createCrawler(CrawlerParameter.Mobile01);
         crawler.init();                /* 執行初始化 */
-        crawler.execute();             /* 顯示除錯（抓取結果）*/
-        // crawler.execute(args[0]);
+        crawler.crawlArticle();        /* 顯示除錯（抓取結果）*/
+        // crawler.crawlArticle(args[0]);
         // crawler.setBucket(FetchMobile01Urls);
         System.out.println(crawler.getTopic());
         for(int i = 0 ; i < crawler.getTopic().getReplyCount() ; i ++)

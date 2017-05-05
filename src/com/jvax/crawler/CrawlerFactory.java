@@ -8,7 +8,7 @@ import com.jvax.crawler.appledaily.*;
  * 網路爬蟲工廠
  * 
  */
-public abstract class CrawlerFactory {
+public class CrawlerFactory {
 
     public static Crawler createCrawler(int CrawlerTypeID){
         switch(CrawlerTypeID)
@@ -24,7 +24,7 @@ public abstract class CrawlerFactory {
         }
         return null;
     }
-    public abstract void createCrawler(String CrawlerTypeName);
+    // public abstract void createCrawler(String CrawlerTypeName);
     
 
 }

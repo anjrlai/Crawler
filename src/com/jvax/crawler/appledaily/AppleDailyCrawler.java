@@ -20,7 +20,7 @@ public class AppleDailyCrawler extends Crawler{
         }
     }
     public void parseHTML(String HTML){}
-    public void execute(){};
-    public void execute(String Url){};
+    public void crawlArticle(){};
+    public void crawlArticle(String Url){};
 
 }
