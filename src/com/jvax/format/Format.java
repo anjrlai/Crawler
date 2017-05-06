@@ -43,6 +43,8 @@ public abstract class Format implements FormatCommand{
             (this.BoardName==null)?BoardName:this.BoardName
         );
         this.setFileName();
+        // this.writeData();
+        //[TO DOs].....
     };
     /**
      * This Method is assumed to be override by subclass.

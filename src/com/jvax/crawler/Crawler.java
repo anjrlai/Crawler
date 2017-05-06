@@ -175,8 +175,6 @@ public abstract class Crawler implements CrawlerCommand{
     }
     public void exportToFile(){
         this.format.exportToFile(this.topic.getBoardName());
-        // this.writeData();
-        //[TO DOs].....
     }
 
 }
