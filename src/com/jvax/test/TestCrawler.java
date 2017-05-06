@@ -18,10 +18,11 @@ public class TestCrawler {
      * 主程式進入點
      */
     public static void main(String[] args) throws Exception{
+        execute();
     }
     
     @Test
-    public void execute() throws Exception{
+    public static void execute() throws Exception{
 
         /**
          * 產製PTT爬蟲
@@ -37,11 +38,14 @@ public class TestCrawler {
         /**
          * 產製XLS Layout
          */
-        Format format = FormatFactory.createFormat(FormatParameter.XLS);
-        Vector<Topic> topics = new Vector<Topic>();
-        topics.add(crawler.getTopic());
-        format.setData(topics);
-        format.setFileName();
+        // Format format = FormatFactory.createFormat(FormatParameter.XLS);
+        // Vector<Topic> topics = new Vector<Topic>();
+        // topics.add(crawler.getTopic());
+        // format.setData(topics);
+        // format.setFileName();
+        crawler.setFormat(new XLSFormat());
+        crawler.exportToFile();
+
 
         /**
          * 產製Mobile01爬蟲
@@ -57,11 +61,13 @@ public class TestCrawler {
         /**
          * 產製PDF Layout
          */
-        format = FormatFactory.createFormat(FormatParameter.PDF);
-        topics = new Vector<Topic>();
-        topics.add(crawler.getTopic());
-        format.setData(topics);
-        format.setFileName();
+        // format = FormatFactory.createFormat(FormatParameter.PDF);
+        // topics = new Vector<Topic>();
+        // topics.add(crawler.getTopic());
+        // format.setData(topics);
+        // format.setFileName();
+        crawler.setFormat(new PDFFormat());
+        crawler.exportToFile();
     };
 
 

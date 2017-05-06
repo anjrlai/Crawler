@@ -6,13 +6,19 @@ import com.jvax.object.*;
  * 
  */
 public class XLSFormat extends Format{
+    
     private final String FileExt = ".xls";
     public void exportToFile(){};
-    //@override
+    @Override
     public void setFileName(){
-        super.setFileName((super.getFileName()!=null)?super.getFileName()+FileExt:super.getFirstTopic().getBoardName()+"@"+super.getDateTimeFileName()+FileExt);
+        super.setFileName(
+            (super.getFileName()!=null)?
+                super.getFileName():
+                    super.getBoardName()+"@"+super.getDateTimeFileName()+FileExt
+        );
     };
     public String getFileName(){
         return super.getFileName();
     };
+    
 }

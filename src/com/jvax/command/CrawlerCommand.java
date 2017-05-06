@@ -10,4 +10,5 @@ public interface CrawlerCommand extends Command{
     public void crawlArticleList();
     public void crawlArticleList(String Url);
     public Topic getTopic();
+    public void exportToFile();
 }

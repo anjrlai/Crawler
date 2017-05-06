@@ -1,5 +1,6 @@
 # Crawler
-  [prototype] using apache httpclient and jsoup to parse webcontent.
+  [prototype]  
+    Using apache httpclient and jsoup to crawl internet. such as ptt.cc & mobile01.com
 
 #Libraries
 
@@ -8,6 +9,7 @@
   - Apache PDFBox[https://pdfbox.apache.org/]
   - Jsoup[https://jsoup.org/]
   - Jxl[http://jexcelapi.sourceforge.net/]
+  - Junit4[http://junit.org/junit4/]
 
 ***
 

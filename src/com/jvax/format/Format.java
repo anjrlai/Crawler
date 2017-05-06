@@ -1,6 +1,5 @@
 package com.jvax.format;
 import com.jvax.command.*;
-import com.jvax.object.*;
 import java.util.*;
 import java.text.*;
 /**
@@ -10,7 +9,7 @@ import java.text.*;
 public abstract class Format implements FormatCommand{
     private final String DateTimeFileNamePattern = "yyyyMMdd_HHmm";
     private String FileName;
-    private Vector<Topic> topics;
+    private String BoardName;
 
     public void setFileName(String FileName){
         this.FileName = FileName;
@@ -18,18 +17,17 @@ public abstract class Format implements FormatCommand{
     };
 
     public void setFileName(){
-        this.FileName = FileName;
     };
     protected String getFileName(){
         return this.FileName;
     };
+    public void setBoardName(String BoardName){
+        this.BoardName = BoardName;
+    };
+    public String getBoardName(){
+        return this.BoardName;
+    };
 
-    public void setData(Vector<Topic> topics){
-        this.topics = topics;
-    };
-    protected Topic getFirstTopic(){
-        return topics.get(0);
-    };
     protected String getDateTimeFileName(){
         SimpleDateFormat sdf = new SimpleDateFormat(DateTimeFileNamePattern);
         return sdf.format(new Date());
