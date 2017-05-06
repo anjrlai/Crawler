@@ -29,3 +29,8 @@
     java com.jvax.test.TestCrawler  
     cd /home/ubuntu/workspace/src  
 
+# To Dos  
+  - Zero MQ function
+  - Key Value Database
+  - reverse index
+  - elasticsearch Database
