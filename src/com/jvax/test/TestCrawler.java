@@ -28,10 +28,13 @@ public class TestCrawler {
          * 產製PTT爬蟲
          */
         Crawler crawler = CrawlerFactory.createCrawler(CrawlerParameter.PTT);
+
         crawler.init();                /* 執行初始化 */
+
         crawler.crawlArticleList();        /* 文章列表爬蒐（抓取網址）*/
 
         crawler.crawlArticle();        /* 單一文章爬蒐（顯示抓取內容）*/
+
         // crawler.setBucket(FetchPttUrls);
         System.out.println(crawler.getTopic());
         for(int i = 0 ; i < crawler.getTopic().getReplyCount() ; i ++)
@@ -43,26 +46,24 @@ public class TestCrawler {
         crawler.setFormat(new XLSFormat());
         crawler.exportToFile();
 
+        /**
+         * 產製Mobile01爬蟲
+         */
+        crawler = CrawlerFactory.createCrawler(CrawlerParameter.Mobile01);
 
+        crawler.init();                /* 執行初始化 */
 
+        crawler.crawlArticle();        /* 文章爬蒐（抓取結果）*/
 
+        // crawler.setBucket(FetchMobile01Urls);
+        System.out.println(crawler.getTopic());
+        for(int i = 0 ; i < crawler.getTopic().getReplyCount() ; i ++)
+            System.out.println(crawler.getTopic().getReplies().get(i));
 
-
-        // /**
-        //  * 產製Mobile01爬蟲
-        //  */
-        // crawler = CrawlerFactory.createCrawler(CrawlerParameter.Mobile01);
-        // crawler.init();                /* 執行初始化 */
-        // crawler.crawlArticle();        /* 文章爬蒐（抓取結果）*/
-        // // crawler.setBucket(FetchMobile01Urls);
-        // System.out.println(crawler.getTopic());
-        // for(int i = 0 ; i < crawler.getTopic().getReplyCount() ; i ++)
-        //     System.out.println(crawler.getTopic().getReplies().get(i));
-
-        // /**
-        //  * 指定輸出格式為PDF，並匯出檔案
-        //  */
-        // crawler.setFormat(new PDFFormat());
-        // crawler.exportToFile();
+        /**
+         * 指定輸出格式為PDF，並匯出檔案
+         */
+        crawler.setFormat(new PDFFormat());
+        crawler.exportToFile();
     };
 }
