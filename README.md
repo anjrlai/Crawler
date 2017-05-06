@@ -15,7 +15,8 @@
 export CLASSPATH=".:/home/ubuntu/workspace/lib/httpclient-4.5.3.jar:/home/ubuntu/workspace/lib/commons-logging-1.2.jar:/home/ubuntu/workspace/lib/jsoup-1.10.2.jar:/home/ubuntu/workspace/lib/pdfbox-2.0.5.jar:/home/ubuntu/workspace/dist"  
 
 #compile
-  commands:
+  commands:  
+    
     cd /home/ubuntu/workspace/src  
     javac -d ../dist com/jvax/test/TestCrawler.java  
     javac -d ../dist com/jvax/crawler/Crawler.java  
