@@ -1,6 +1,7 @@
 package com.jvax.crawler;
 import com.jvax.object.*;
-import com.jvax.command.Command;
+import com.jvax.format.*;
+import com.jvax.command.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.io.*;
@@ -15,14 +16,17 @@ import org.apache.http.util.EntityUtils;
  * 網路爬蟲
  * 
  */
-public abstract class Crawler implements Command{
+public abstract class Crawler implements CrawlerCommand{
 
-    protected abstract void parseHTML(String HTML);
-    protected abstract void parseHTML();
+    protected abstract void parseArticle(String HTML);
+    protected abstract void parseArticle();
     private Topic topic;
+    private Vector<Topic> topics;
     private Reply reply;
     private Date now;
-
+    private Format format;
+    private SimpleDateFormat sdf;
+    private String DateTimeStringPattern = "yyyy-MM-dd HH:mm:ss";
     /**
      * 初始化(設定HttpClient, 可抓取SSL)
      */
@@ -33,8 +37,10 @@ public abstract class Crawler implements Command{
 		SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(builder.build());
 		this.httpclient = HttpClients.custom().setSSLSocketFactory(sslsf).build();
 		this.topic = new Topic();
+		this.topics = new Vector<Topic>();
 		this.reply = new Reply();
 		now = new Date();
+		sdf = new SimpleDateFormat(this.DateTimeStringPattern);
     }
 
     // private Vector<Topic> TopicBucket;
@@ -83,7 +89,6 @@ public abstract class Crawler implements Command{
     };
 
     protected void setCrawledDate(){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         this.topic.setCrawledDate(sdf.format(now));
     };
 
@@ -104,7 +109,6 @@ public abstract class Crawler implements Command{
     };
 
     protected void setReplyCrawledDate(){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         this.reply.setCrawledDate(sdf.format(now));
     };
 
@@ -112,19 +116,12 @@ public abstract class Crawler implements Command{
         this.topic.addReply(this.reply);
         this.reply = new Reply();
     };
-//			reply.setCrawledDate(sdf.format(now));
-
-
-//			reply.setTag(push.select("span.push-tag").text());
-//			reply.setUserId(push.select("span.push-userid").text());
-//			String ReplyContent = push.select("span.push-content").text();
-//			ReplyContent=ReplyContent.replaceAll("'", "\"");
-//			reply.setContent(ReplyContent);
-//			reply.setPostDate(push.select("span.push-ipdatetime").text());
-			//----------------
-			//
-			//----------------
-// 			reply.setCrawledDate(sdf.format(now));
+    private void addTopic(Topic topic){
+        this.topics.add(topic);
+    };
+    private void removeTopic(Topic topic){
+        this.topics.remove(topic);
+    };
 
     /**
      * 抓取網頁內容回應
@@ -171,5 +168,14 @@ public abstract class Crawler implements Command{
 		}
     }
     public void crawlArticleList(){};
-    public void crawlArticleList(String Url){};
+
+    public void setFormat(Format format){
+        this.format = format;
+    }
+    public void exportToFile(){
+        this.format.exportToFile(this.topic.getBoardName());
+        // this.writeData();
+        //[TO DOs].....
+    }
+
 }

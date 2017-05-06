@@ -7,10 +7,13 @@ import com.jvax.object.*;
  */
 public class XLSFormat extends Format{
     
+    public XLSFormat(){
+        super();
+    }
     private final String FileExt = ".xls";
     public void exportToFile(){};
     @Override
-    public void setFileName(){
+    protected void setFileName(){
         super.setFileName(
             (super.getFileName()!=null)?
                 super.getFileName():

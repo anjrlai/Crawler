@@ -57,23 +57,27 @@ public class Mobile01Crawler extends Crawler{
     public void crawlArticle(){
         String Url=filterUrl(fetchUrl());
         setUrl(Url);
-        parseHTML();
+        parseArticle();
          while(nextPageUrl!=null)
          {
             setUrl(nextPageUrl);
-            parseHTML();
+            parseArticle();
          }
     };
 
     public void crawlArticle(String Url){
         Url=filterUrl(Url);
         setUrl(Url);
-        parseHTML();
+        parseArticle();
         while(nextPageUrl!=null)
         {
             setUrl(nextPageUrl);
-            parseHTML();
+            parseArticle();
         }
+    };
+
+    public void crawlArticleList(String Url){
+        
     };
 
     private String fetchUrl(){
@@ -98,9 +102,9 @@ public class Mobile01Crawler extends Crawler{
         return (Pattern.matches(this.filterPattern, Url))?Url:null;
     };
     
-    protected void parseHTML(){
+    protected void parseArticle(){
         try{
-            this.parseHTML(getResponse());
+            this.parseArticle(getResponse());
         }catch(Exception e){
             
         }
@@ -109,7 +113,7 @@ public class Mobile01Crawler extends Crawler{
     /**
      * 抓出本文、回文內容
      */
-    protected void parseHTML(String HTML){
+    protected void parseArticle(String HTML){
 		this.xmlDoc = Jsoup.parse(HTML);
         nextPageUrl=null;
 

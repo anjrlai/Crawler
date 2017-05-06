@@ -7,10 +7,13 @@ import com.jvax.object.*;
  */
 public class PDFFormat extends Format{
 
+    public PDFFormat(){
+        super();
+    }
     private final String FileExt = ".pdf";
     public void exportToFile(){};
     @Override
-    public void setFileName(){
+    protected void setFileName(){
         super.setFileName(
             (super.getFileName()!=null)?
                 super.getFileName():

@@ -8,6 +8,7 @@ public interface FormatCommand extends Command{
 
     public void exportToFile();
 
-    public void setFileName();
+    public void setData(Vector<Topic> topics);
+
     
 }
