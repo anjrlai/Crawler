@@ -14,7 +14,7 @@
 # Env  
   commands:  
   
-    export CLASSPATH=".:/home/ubuntu/workspace/lib/httpclient-4.5.3.jar:/home/ubuntu/workspace/lib/commons-logging-1.2.jar:/home/ubuntu/workspace/lib/jsoup-1.10.2.jar:/home/ubuntu/workspace/lib/pdfbox-2.0.5.jar:/home/ubuntu/workspace/dist"  
+    export CLASSPATH=".:/home/ubuntu/workspace/lib/junit-4.12.jar:/home/ubuntu/workspace/lib/httpclient-4.5.3.jar:/home/ubuntu/workspace/lib/commons-logging-1.2.jar:/home/ubuntu/workspace/lib/jsoup-1.10.2.jar:/home/ubuntu/workspace/lib/pdfbox-2.0.5.jar:/home/ubuntu/workspace/dist"  
 
 # Compile  
   commands:  

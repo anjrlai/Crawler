@@ -6,6 +6,7 @@ import com.jvax.format.XLS.*;
 import com.jvax.format.PDF.*;
 import java.io.*;
 import java.util.*;
+import org.junit.*;
 
 /**
  * 測試網路爬蟲
@@ -17,6 +18,10 @@ public class TestCrawler {
      * 主程式進入點
      */
     public static void main(String[] args) throws Exception{
+    }
+    
+    @Test
+    public void execute() throws Exception{
 
         /**
          * 產製PTT爬蟲
@@ -24,7 +29,6 @@ public class TestCrawler {
         Crawler crawler = CrawlerFactory.createCrawler(CrawlerParameter.PTT);
         crawler.init();                /* 執行初始化 */
         crawler.crawlArticle();        /* 文章爬蒐（抓取結果）*/
-        // crawler.crawlArticle(args[0]);
         // crawler.setBucket(FetchPttUrls);
         System.out.println(crawler.getTopic());
         for(int i = 0 ; i < crawler.getTopic().getReplyCount() ; i ++)
@@ -34,7 +38,6 @@ public class TestCrawler {
          * 產製XLS Layout
          */
         Format format = FormatFactory.createFormat(FormatParameter.XLS);
-        // String BoardName = crawler.getTopic().getBoardName();
         Vector<Topic> topics = new Vector<Topic>();
         topics.add(crawler.getTopic());
         format.setData(topics);
@@ -46,7 +49,6 @@ public class TestCrawler {
         crawler = CrawlerFactory.createCrawler(CrawlerParameter.Mobile01);
         crawler.init();                /* 執行初始化 */
         crawler.crawlArticle();        /* 文章爬蒐（抓取結果）*/
-        // crawler.crawlArticle(args[0]);
         // crawler.setBucket(FetchMobile01Urls);
         System.out.println(crawler.getTopic());
         for(int i = 0 ; i < crawler.getTopic().getReplyCount() ; i ++)
@@ -55,7 +57,6 @@ public class TestCrawler {
         /**
          * 產製PDF Layout
          */
-
         format = FormatFactory.createFormat(FormatParameter.PDF);
         topics = new Vector<Topic>();
         topics.add(crawler.getTopic());
