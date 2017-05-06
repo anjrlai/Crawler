@@ -20,6 +20,8 @@ public abstract class Crawler implements CrawlerCommand{
 
     protected abstract void parseArticle(String HTML);
     protected abstract void parseArticle();
+    protected abstract void parseArticleList(String HTML);
+    protected abstract void parseArticleList();
     private Topic topic;
     private Vector<Topic> topics;
     private Reply reply;

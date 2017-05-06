@@ -15,6 +15,7 @@ public class PTTCrawler extends Crawler{
     private Document xmlDoc;
 
     private String test_url              = "https://www.ptt.cc/bbs/Lifeismoney/M.1493871419.A.573.html";
+    private String test_url_list         = "https://www.ptt.cc/bbs/Lifeismoney/index.html";
     /**
      * PTT網站tokens
      */
@@ -57,15 +58,23 @@ public class PTTCrawler extends Crawler{
         setUrl(Url);
         parseArticle();
     };
-    public void crawlArticleList(String Url){
-        System.out.println("PTTCrawler.crawlArticleList!");
-        setUrl(Url);
+
+    public void crawlArticleList(){
+        // System.out.println("PTTCrawler.crawlArticleList!");
+        setUrl(this.test_url_list);
+        parseArticleList();
     };
+
+    public void crawlArticleList(String Url){
+        // System.out.println("PTTCrawler.crawlArticleList!");
+        setUrl(Url);
+        parseArticleList();
+    };
+
 
 
     private String fetchUrl(){
         return this.test_url;
-        
     };
 
     protected void setUrl(String Url){
@@ -100,6 +109,23 @@ public class PTTCrawler extends Crawler{
 
     }
 
+    protected void parseArticleList(){
+        try{
+            this.parseArticleList(getResponse());
+        }catch(Exception e){
+            
+        }
+    }
+    protected void parseArticleList(String HTML){
+		this.xmlDoc = Jsoup.parse(HTML);
+        // parseMetaData();
+        // parseContent();
+        // parseReplies();
+        //[ToDos].......
+        //..............
+        //..............
+
+    }
     /**
      * 抓出上方Meta訊息
      */

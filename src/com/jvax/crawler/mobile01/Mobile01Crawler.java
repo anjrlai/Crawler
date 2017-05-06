@@ -15,6 +15,7 @@ public class Mobile01Crawler extends Crawler{
     private Document xmlDoc;
 
     private String test_url              = "https://www.mobile01.com/topicdetail.php?f=507&t=5133833";
+    private String test_url_list         = "https://www.mobile01.com/topiclist.php?f=507";
     private String WebpageBase           = "https://www.mobile01.com/";
     private String nextPageUrl           = null;
     /**
@@ -76,9 +77,19 @@ public class Mobile01Crawler extends Crawler{
         }
     };
 
-    public void crawlArticleList(String Url){
-        
+    public void crawlArticleList(){
+        // System.out.println("Mobile01Crawler.crawlArticleList!");
+        setUrl(this.test_url_list);
+        parseArticleList();
     };
+
+    public void crawlArticleList(String Url){
+        // System.out.println("Mobile01Crawler.crawlArticleList!");
+        setUrl(Url);
+        parseArticleList();
+    };
+
+
 
     private String fetchUrl(){
         return this.test_url;
@@ -154,6 +165,19 @@ public class Mobile01Crawler extends Crawler{
 			    nextPageUrl=WebpageBase+""+link.attr("href");
             }
 		}
+    }
+    protected void parseArticleList(){
+        try{
+            this.parseArticleList(getResponse());
+        }catch(Exception e){
+            
+        }
+    }
+    protected void parseArticleList(String HTML){
+		this.xmlDoc = Jsoup.parse(HTML);
+        //[ToDos].......
+        //..............
+        //..............
     }
 
 
