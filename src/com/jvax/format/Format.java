@@ -15,7 +15,10 @@ public abstract class Format implements FormatCommand{
         this.FileName = FileName;
         System.out.println(this.FileName);
     };
-
+    /**
+     * This Method is assumed to be override by subclass.
+     * for the reason of different format/layout FileExt
+     */
     public void setFileName(){
     };
     protected String getFileName(){

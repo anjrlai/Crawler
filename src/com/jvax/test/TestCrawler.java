@@ -36,13 +36,8 @@ public class TestCrawler {
             System.out.println(crawler.getTopic().getReplies().get(i));
 
         /**
-         * 產製XLS Layout
+         * 指定輸出格式為XLS，並匯出檔案
          */
-        // Format format = FormatFactory.createFormat(FormatParameter.XLS);
-        // Vector<Topic> topics = new Vector<Topic>();
-        // topics.add(crawler.getTopic());
-        // format.setData(topics);
-        // format.setFileName();
         crawler.setFormat(new XLSFormat());
         crawler.exportToFile();
 
@@ -59,13 +54,8 @@ public class TestCrawler {
             System.out.println(crawler.getTopic().getReplies().get(i));
 
         /**
-         * 產製PDF Layout
+         * 指定輸出格式為PDF，並匯出檔案
          */
-        // format = FormatFactory.createFormat(FormatParameter.PDF);
-        // topics = new Vector<Topic>();
-        // topics.add(crawler.getTopic());
-        // format.setData(topics);
-        // format.setFileName();
         crawler.setFormat(new PDFFormat());
         crawler.exportToFile();
     };
