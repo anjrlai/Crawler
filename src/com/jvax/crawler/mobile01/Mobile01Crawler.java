@@ -16,8 +16,10 @@ public class Mobile01Crawler extends Crawler{
 
     private String test_url              = "https://www.mobile01.com/topicdetail.php?f=507&t=5133833";
     private String test_url_list         = "https://www.mobile01.com/topiclist.php?f=507";
-    private String WebpageBase           = "https://www.mobile01.com/";
+    private final String WebpageBase     = "https://www.mobile01.com/";
     private String nextPageUrl           = null;
+    private int UrlListLimit             = 100;
+    private Hashtable<String, String> UrlList;
     /**
      * Mobile01網站tokens
      */
@@ -77,16 +79,18 @@ public class Mobile01Crawler extends Crawler{
         }
     };
 
-    public void crawlArticleList(){
+    public Hashtable<String, String> crawlArticleList(){
         // System.out.println("Mobile01Crawler.crawlArticleList!");
         setUrl(this.test_url_list);
         parseArticleList();
+        return UrlList;
     };
 
-    public void crawlArticleList(String Url){
+    public Hashtable<String, String> crawlArticleList(String Url){
         // System.out.println("Mobile01Crawler.crawlArticleList!");
         setUrl(Url);
         parseArticleList();
+        return UrlList;
     };
 
 

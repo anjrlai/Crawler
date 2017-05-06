@@ -16,6 +16,10 @@ public class PTTCrawler extends Crawler{
 
     private String test_url              = "https://www.ptt.cc/bbs/Lifeismoney/M.1493871419.A.573.html";
     private String test_url_list         = "https://www.ptt.cc/bbs/Lifeismoney/index.html";
+    private final String WebpageBase     = "https://www.ptt.cc";
+    private String nextPageUrl           = null;
+    private int UrlListLimit             = 100;
+    private Hashtable<String, String> UrlList;
     /**
      * PTT網站tokens
      */
@@ -39,6 +43,7 @@ public class PTTCrawler extends Crawler{
      */
     public void init() throws Exception{
         super.init();
+        UrlList = new Hashtable<String, String>();
     }
 
     /**
@@ -59,16 +64,28 @@ public class PTTCrawler extends Crawler{
         parseArticle();
     };
 
-    public void crawlArticleList(){
+    public Hashtable<String, String> crawlArticleList(){
         // System.out.println("PTTCrawler.crawlArticleList!");
         setUrl(this.test_url_list);
         parseArticleList();
+        while(UrlList.size()<UrlListLimit)
+        {
+            setUrl(this.nextPageUrl);
+            parseArticleList();
+        }
+        return UrlList;
     };
 
-    public void crawlArticleList(String Url){
+    public Hashtable<String, String> crawlArticleList(String Url){
         // System.out.println("PTTCrawler.crawlArticleList!");
         setUrl(Url);
         parseArticleList();
+        while(UrlList.size()<UrlListLimit)
+        {
+            setUrl(this.nextPageUrl);
+            parseArticleList();
+        }
+        return UrlList;
     };
 
 
@@ -118,14 +135,23 @@ public class PTTCrawler extends Crawler{
     }
     protected void parseArticleList(String HTML){
 		this.xmlDoc = Jsoup.parse(HTML);
-        // parseMetaData();
-        // parseContent();
-        // parseReplies();
-        //[ToDos].......
-        //..............
-        //..............
+        parseArticleUrls();
+        parseNextPage();
 
     }
+    private void parseArticleUrls(){
+		Elements r_list = xmlDoc.select("div.r-list-container.action-bar-margin.bbs-screen");
+        Elements articles = r_list.select("div.title a");
+        for (Element article : articles)
+        {
+          System.out.println(article.text() +"\t"+ WebpageBase+articles.attr("href"));
+          UrlList.put(article.text(),WebpageBase+articles.attr("href"));
+        }        
+    };
+    private void parseNextPage(){
+		Elements btns = xmlDoc.select("div.btn-group.btn-group-paging a");
+        this.nextPageUrl = WebpageBase+btns.get(1).attr("href");
+    };
     /**
      * 抓出上方Meta訊息
      */

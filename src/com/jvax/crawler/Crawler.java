@@ -57,7 +57,8 @@ public abstract class Crawler implements CrawlerCommand{
      */
     protected void setUrl(String Url){
         this.Url = Url;
-        this.topic.setUrl(Url);
+        // System.out.println("Crawler.setUrl:"+Url);
+        // this.topic.setUrl(Url); // think ablout crawlArticleList....
     };
     /**
      * 讀取文章網址
@@ -169,8 +170,6 @@ public abstract class Crawler implements CrawlerCommand{
 			System.out.println(e);
 		}
     }
-    public void crawlArticleList(){};
-
     public void setFormat(Format format){
         this.format = format;
     }
