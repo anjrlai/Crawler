@@ -22,6 +22,7 @@ public abstract class Crawler implements CrawlerCommand{
     protected abstract void parseArticle();
     protected abstract void parseArticleList(String HTML);
     protected abstract void parseArticleList();
+    public abstract Vector<String> getUrls();
     private Topic topic;
     private Vector<Topic> topics;
     private Reply reply;
@@ -57,14 +58,16 @@ public abstract class Crawler implements CrawlerCommand{
      */
     protected void setUrl(String Url){
         this.Url = Url;
-        // System.out.println("Crawler.setUrl:"+Url);
-        // this.topic.setUrl(Url); // think ablout crawlArticleList....
     };
     /**
      * 讀取文章網址
      */
     public String getUrl(){
         return this.Url;
+    };
+
+    protected void setTopicUrl(String Url){
+        this.topic.setUrl(Url);
     };
 
     protected void setUserId(String UserId){
@@ -158,9 +161,14 @@ public abstract class Crawler implements CrawlerCommand{
         }
         return responseContent;
     };
-    public Topic getTopic(){
-        return this.topic;
+    public Vector<Topic> getTopics(){
+        return this.topics;
     }
+    public void showTopicReplies(){
+            System.out.println(this.topic);
+    }
+
+
     public final void sleep(long milliseconds) throws Exception 
     {
 		try {

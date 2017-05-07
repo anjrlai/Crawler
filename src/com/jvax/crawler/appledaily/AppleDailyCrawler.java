@@ -21,5 +21,6 @@ public class AppleDailyCrawler extends Crawler{
     public void crawlArticle(String Url){};
     public Hashtable<String, String> crawlArticleList(){return null;};
     public Hashtable<String, String> crawlArticleList(String Url){return null;};
+    public Vector<String> getUrls(){return null;};  
 
 }

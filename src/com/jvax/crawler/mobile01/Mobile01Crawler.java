@@ -183,8 +183,8 @@ public class Mobile01Crawler extends Crawler{
         //..............
         //..............
     }
-
-
+    public Vector<String> getUrls(){return null;};  
+    
     private String skipMetaString(String Content, String MetaString){
         return Content=(Content.indexOf(MetaString)>-1)?Content.substring(Content.indexOf(MetaString)+MetaString.length(), Content.length()):Content;
     }

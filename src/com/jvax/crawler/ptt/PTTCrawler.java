@@ -18,16 +18,21 @@ public class PTTCrawler extends Crawler{
     private String test_url_list         = "https://www.ptt.cc/bbs/Lifeismoney/index.html";
     private final String WebpageBase     = "https://www.ptt.cc";
     private String nextPageUrl           = null;
-    private int UrlListLimit             = 100;
+    private int UrlListLimit             = 10;
     private Hashtable<String, String> UrlList;
+    private Vector<String> Urls;
     /**
      * PTT網站tokens
      */
+
+    private String hyperlink             = "href";
     private String terminate_token       = "※ 發信站";
+    private String rlistcontainer_token  = "div.r-list-container.action-bar-margin.bbs-screen";
+    private String btn_group_token       = "div.btn-group.btn-group-paging a";
+    private String title_a_token         = "div.title a";
     private String topic_meta_token      = "span.article-meta-value";
     private String article_content_token = "div#main-container";
     private String reply_token           = "div.push";
-
     private String reply_tag_token       = "span.push-tag";
     private String reply_userid_token    = "span.push-userid";
     private String reply_content_token   = "span.push-content";
@@ -44,6 +49,7 @@ public class PTTCrawler extends Crawler{
     public void init() throws Exception{
         super.init();
         UrlList = new Hashtable<String, String>();
+        Urls    = new Vector<String>();
     }
 
     /**
@@ -55,17 +61,18 @@ public class PTTCrawler extends Crawler{
     public void crawlArticle(){
         String Url=filterUrl(fetchUrl());
         setUrl(Url);
+        super.setTopicUrl(Url);
         parseArticle();
     };
 
     public void crawlArticle(String Url){
         Url=filterUrl(Url);
         setUrl(Url);
+        super.setTopicUrl(Url);
         parseArticle();
     };
 
     public Hashtable<String, String> crawlArticleList(){
-        // System.out.println("PTTCrawler.crawlArticleList!");
         setUrl(this.test_url_list);
         parseArticleList();
         while(UrlList.size()<UrlListLimit)
@@ -77,7 +84,6 @@ public class PTTCrawler extends Crawler{
     };
 
     public Hashtable<String, String> crawlArticleList(String Url){
-        // System.out.println("PTTCrawler.crawlArticleList!");
         setUrl(Url);
         parseArticleList();
         while(UrlList.size()<UrlListLimit)
@@ -87,8 +93,6 @@ public class PTTCrawler extends Crawler{
         }
         return UrlList;
     };
-
-
 
     private String fetchUrl(){
         return this.test_url;
@@ -139,18 +143,22 @@ public class PTTCrawler extends Crawler{
         parseNextPage();
 
     }
+    public Vector<String> getUrls(){
+        return Urls;
+    }
     private void parseArticleUrls(){
-		Elements r_list = xmlDoc.select("div.r-list-container.action-bar-margin.bbs-screen");
-        Elements articles = r_list.select("div.title a");
+		Elements r_list = xmlDoc.select(rlistcontainer_token);
+        Elements articles = r_list.select(title_a_token);
         for (Element article : articles)
         {
-          System.out.println(article.text() +"\t"+ WebpageBase+articles.attr("href"));
-          UrlList.put(article.text(),WebpageBase+articles.attr("href"));
+          System.out.println("::"+article.text() +"\t"+ WebpageBase+article.attr(hyperlink));
+          UrlList.put(article.text(),WebpageBase+article.attr(hyperlink));
+          Urls.addElement(WebpageBase+article.attr(hyperlink));
         }        
     };
     private void parseNextPage(){
-		Elements btns = xmlDoc.select("div.btn-group.btn-group-paging a");
-        this.nextPageUrl = WebpageBase+btns.get(1).attr("href");
+		Elements btns = xmlDoc.select(btn_group_token);
+        this.nextPageUrl = WebpageBase+btns.get(1).attr(hyperlink);
     };
     /**
      * 抓出上方Meta訊息

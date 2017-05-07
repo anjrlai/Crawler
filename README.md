@@ -38,3 +38,8 @@
   - Key Value Database
   - reverse index
   - elasticsearch Database
+
+# Think  
+
+    兩者的差別在於工廠模式中的工廠類別並不會去使用產品，因為工廠模式只關注在如何產生建立物件；
+    在策略模式中的環境類別則是使用外部傳入的策略類別，因此我們必須知道傳入策略的實際內容才行。
