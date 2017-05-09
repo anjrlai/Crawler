@@ -52,10 +52,7 @@ public class Mobile01Crawler extends Crawler{
     }
 
     /**
-     * 指令組成Compose
-     * 過濾網址
-     * 設定網址
-     * 抓取網頁
+     * 指令組成Compose [過濾網址、設定網址、抓取網頁]
      */
     public void crawlArticle(){
         String Url=filterUrl(fetchUrl());
@@ -80,20 +77,21 @@ public class Mobile01Crawler extends Crawler{
     };
 
     public Hashtable<String, String> crawlArticleList(){
-        // System.out.println("Mobile01Crawler.crawlArticleList!");
         setUrl(this.test_url_list);
         parseArticleList();
         return UrlList;
     };
 
     public Hashtable<String, String> crawlArticleList(String Url){
-        // System.out.println("Mobile01Crawler.crawlArticleList!");
         setUrl(Url);
         parseArticleList();
         return UrlList;
     };
+    public Hashtable<String, String> crawlArticleList(String Url, int ArticleCount){
+        return null;
+    };
 
-
+    public Vector<String> getUrls(){return null;};  
 
     private String fetchUrl(){
         return this.test_url;
@@ -183,14 +181,15 @@ public class Mobile01Crawler extends Crawler{
         //..............
         //..............
     }
-    public Vector<String> getUrls(){return null;};  
     
     private String skipMetaString(String Content, String MetaString){
         return Content=(Content.indexOf(MetaString)>-1)?Content.substring(Content.indexOf(MetaString)+MetaString.length(), Content.length()):Content;
     }
+
     private String chopContent(String Content, String terminate_token){
         return Content=(Content.indexOf(terminate_token)>-1)?Content.substring(0, Content.indexOf(terminate_token)):Content;
     }
+
     private String chopBoardName(Document xmlDoc){
         return chopBoardName(xmlDoc.select(boardname_token).text(), "-");
     }

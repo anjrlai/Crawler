@@ -1,9 +1,7 @@
 package com.jvax.test;
 import com.jvax.crawler.*;
-import com.jvax.object.*;
 import com.jvax.format.*;
-import com.jvax.format.XLS.*;
-import com.jvax.format.PDF.*;
+import com.jvax.object.*;
 import java.io.*;
 import java.util.*;
 import org.junit.*;
@@ -18,11 +16,17 @@ public class TestCrawler {
      * 主程式進入點
      */
     public static void main(String[] args) throws Exception{
-        execute();
+        int ArticleCount = 50;
+        // String BoardUrl = "https://www.ptt.cc/bbs/Broad_Band/index.html";
+        String BoardUrl = "https://www.ptt.cc/bbs/MobileComm/index.html";
+        execute(BoardUrl, ArticleCount);
     }
     
+    /**
+     * 執行爬蟲指定版面網址BoardUrl, 文章數量ArticleCount
+     */
     @Test
-    public static void execute() throws Exception{
+    public static void execute(String BoardUrl, int ArticleCount) throws Exception{
         
         Vector<String> Urls = new Vector<String>();
 
@@ -31,7 +35,7 @@ public class TestCrawler {
          */
         Crawler crawler = CrawlerFactory.createCrawler(CrawlerParameter.PTT);
         crawler.init();                     /* 執行初始化 */
-        crawler.crawlArticleList();         /* 文章列表爬蒐（抓取網址）*/
+        crawler.crawlArticleList(BoardUrl, ArticleCount);         /* 文章列表爬蒐（抓取網址）*/
         Urls=crawler.getUrls();
         for(String Url : Urls)
         {
@@ -47,19 +51,19 @@ public class TestCrawler {
 
 /***********************************************************************/
 
-        /**
-         * 產製Mobile01爬蟲
-         */
-        crawler = CrawlerFactory.createCrawler(CrawlerParameter.Mobile01);
-        crawler.init();                     /* 執行初始化 */
-        crawler.crawlArticle();             /* 文章爬蒐（抓取結果）*/
-        // crawler.crawlArticleList();      /* 文章列表爬蒐（抓取網址）*/
-        crawler.showTopicReplies();
+        // /**
+        //  * 產製Mobile01爬蟲
+        //  */
+        // crawler = CrawlerFactory.createCrawler(CrawlerParameter.Mobile01);
+        // crawler.init();                     /* 執行初始化 */
+        // crawler.crawlArticle();             /* 文章爬蒐（抓取結果）*/
+        // // crawler.crawlArticleList();      /* 文章列表爬蒐（抓取網址）*/
+        // crawler.showTopicReplies();
 
-        /**
-         * 指定輸出格式為PDF，並匯出檔案
-         */
-        crawler.setFormat(new PDFFormat());
-        crawler.exportToFile();
+        // /**
+        //  * 指定輸出格式為PDF，並匯出檔案
+        //  */
+        // crawler.setFormat(new PDFFormat());
+        // crawler.exportToFile();
     };
 }

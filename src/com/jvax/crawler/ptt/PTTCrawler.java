@@ -18,7 +18,7 @@ public class PTTCrawler extends Crawler{
     private String test_url_list         = "https://www.ptt.cc/bbs/Lifeismoney/index.html";
     private final String WebpageBase     = "https://www.ptt.cc";
     private String nextPageUrl           = null;
-    private int UrlListLimit             = 10;
+    private int ArticleCount             = 30;
     private Hashtable<String, String> UrlList;
     private Vector<String> Urls;
     /**
@@ -53,10 +53,7 @@ public class PTTCrawler extends Crawler{
     }
 
     /**
-     * 指令組成Compose
-     * 過濾網址
-     * 設定網址
-     * 抓取網頁
+     * 指令組成Compose [過濾網址、設定網址、抓取網頁]
      */
     public void crawlArticle(){
         String Url=filterUrl(fetchUrl());
@@ -75,7 +72,7 @@ public class PTTCrawler extends Crawler{
     public Hashtable<String, String> crawlArticleList(){
         setUrl(this.test_url_list);
         parseArticleList();
-        while(UrlList.size()<UrlListLimit)
+        while(UrlList.size()<ArticleCount)
         {
             setUrl(this.nextPageUrl);
             parseArticleList();
@@ -86,13 +83,28 @@ public class PTTCrawler extends Crawler{
     public Hashtable<String, String> crawlArticleList(String Url){
         setUrl(Url);
         parseArticleList();
-        while(UrlList.size()<UrlListLimit)
+        while(UrlList.size()<ArticleCount)
         {
             setUrl(this.nextPageUrl);
             parseArticleList();
         }
         return UrlList;
     };
+    public Hashtable<String, String> crawlArticleList(String Url, int ArticleCount){
+        setUrl(Url);
+        setArticleCount(ArticleCount);
+        parseArticleList();
+        while(UrlList.size()<ArticleCount)
+        {
+            setUrl(this.nextPageUrl);
+            parseArticleList();
+        }
+        return UrlList;
+    };
+
+    public Vector<String> getUrls(){
+        return Urls;
+    }
 
     private String fetchUrl(){
         return this.test_url;
@@ -101,6 +113,7 @@ public class PTTCrawler extends Crawler{
     protected void setUrl(String Url){
         super.setUrl(Url);
     }
+
     protected String getResponse(){
         try {
                 return super.getResponse();
@@ -108,6 +121,7 @@ public class PTTCrawler extends Crawler{
         }
         return null;
     }
+
     /*
      * Only ptt.cc urls could be left;
      */
@@ -122,6 +136,7 @@ public class PTTCrawler extends Crawler{
             
         }
     }
+
     protected void parseArticle(String HTML){
 		this.xmlDoc = Jsoup.parse(HTML);
         parseMetaData();
@@ -137,15 +152,14 @@ public class PTTCrawler extends Crawler{
             
         }
     }
+
     protected void parseArticleList(String HTML){
 		this.xmlDoc = Jsoup.parse(HTML);
         parseArticleUrls();
         parseNextPage();
 
     }
-    public Vector<String> getUrls(){
-        return Urls;
-    }
+
     private void parseArticleUrls(){
 		Elements r_list = xmlDoc.select(rlistcontainer_token);
         Elements articles = r_list.select(title_a_token);
@@ -156,10 +170,12 @@ public class PTTCrawler extends Crawler{
           Urls.addElement(WebpageBase+article.attr(hyperlink));
         }        
     };
+
     private void parseNextPage(){
 		Elements btns = xmlDoc.select(btn_group_token);
         this.nextPageUrl = WebpageBase+btns.get(1).attr(hyperlink);
     };
+
     /**
      * 抓出上方Meta訊息
      */
@@ -216,7 +232,14 @@ public class PTTCrawler extends Crawler{
     private String skipMetaString(String Content, String MetaString){
         return Content=(Content.indexOf(MetaString)>-1)?Content.substring(Content.indexOf(MetaString)+MetaString.length(), Content.length()):Content;
     }
+
     private String chopContent(String Content, String terminate_token){
         return Content=(Content.indexOf(terminate_token)>-1)?Content.substring(0, Content.indexOf(terminate_token)):Content;
+    }
+    private void setArticleCount(int ArticleCount){
+        this.ArticleCount = ArticleCount;
+    }
+    private int getArticleCount(){
+        return this.ArticleCount;
     }
 }

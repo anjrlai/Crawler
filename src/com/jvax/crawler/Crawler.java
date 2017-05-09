@@ -22,7 +22,6 @@ public abstract class Crawler implements CrawlerCommand{
     protected abstract void parseArticle();
     protected abstract void parseArticleList(String HTML);
     protected abstract void parseArticleList();
-    public abstract Vector<String> getUrls();
     private Topic topic;
     private Vector<Topic> topics;
     private Reply reply;
@@ -57,6 +56,7 @@ public abstract class Crawler implements CrawlerCommand{
      * 設定文章網址
      */
     protected void setUrl(String Url){
+        System.out.println(Url);
         this.Url = Url;
     };
     /**

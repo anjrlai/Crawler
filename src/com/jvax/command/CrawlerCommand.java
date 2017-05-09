@@ -10,7 +10,8 @@ public interface CrawlerCommand extends Command{
     public void crawlArticle(String Url);
     public Hashtable<String, String> crawlArticleList();
     public Hashtable<String, String> crawlArticleList(String Url);
-    
+    public Hashtable<String, String> crawlArticleList(String Url, int ArticleCount);
+    public Vector<String> getUrls();
     public Vector<Topic> getTopics();
     public void exportToFile();
 }
