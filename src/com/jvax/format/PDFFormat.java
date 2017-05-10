@@ -1,4 +1,6 @@
 package com.jvax.format;
+import com.jvax.object.*;
+import java.util.*;
 /**
  * 網路爬蟲介面
  * 
@@ -21,5 +23,9 @@ public class PDFFormat extends Format{
     public String getFileName(){
         return super.getFileName();
     };
-
+    public void exportToFile(String BoardName){
+    };
+    public void setData(Vector<Topic> topics){
+        this.topics =topics;
+    };
 }

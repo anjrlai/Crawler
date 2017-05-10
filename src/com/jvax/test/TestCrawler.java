@@ -16,9 +16,9 @@ public class TestCrawler {
      * 主程式進入點
      */
     public static void main(String[] args) throws Exception{
-        int ArticleCount = 50;
+        int ArticleCount = 10;
         // String BoardUrl = "https://www.ptt.cc/bbs/Broad_Band/index.html";
-        String BoardUrl = "https://www.ptt.cc/bbs/MobileComm/index.html";
+        String BoardUrl = "https://www.ptt.cc/bbs/Espannol/index.html";
         execute(BoardUrl, ArticleCount);
     }
     

@@ -67,7 +67,11 @@ public class PTTCrawler extends Crawler{
         setUrl(Url);
         super.setTopicUrl(Url);
         parseArticle();
+        addToContainer();
     };
+    public void addToContainer(){
+        super.addTopic();
+    }
 
     public Hashtable<String, String> crawlArticleList(){
         setUrl(this.test_url_list);

@@ -56,7 +56,6 @@ public abstract class Crawler implements CrawlerCommand{
      * 設定文章網址
      */
     protected void setUrl(String Url){
-        System.out.println(Url);
         this.Url = Url;
     };
     /**
@@ -122,8 +121,12 @@ public abstract class Crawler implements CrawlerCommand{
         this.topic.addReply(this.reply);
         this.reply = new Reply();
     };
+    protected void addTopic(){
+        this.addTopic(this.topic);
+    };
     private void addTopic(Topic topic){
         this.topics.add(topic);
+        this.topic = new Topic();
     };
     private void removeTopic(Topic topic){
         this.topics.remove(topic);
@@ -165,7 +168,7 @@ public abstract class Crawler implements CrawlerCommand{
         return this.topics;
     }
     public void showTopicReplies(){
-            System.out.println(this.topic);
+        // System.out.println(this.topic.getSubject());
     }
 
 
@@ -182,7 +185,8 @@ public abstract class Crawler implements CrawlerCommand{
         this.format = format;
     }
     public void exportToFile(){
-        this.format.exportToFile(this.topic.getBoardName());
+        this.format.setData(this.topics);
+        this.format.exportToFile(((Topic)this.topics.get(0)).getBoardName());
     }
 
 }

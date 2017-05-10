@@ -11,6 +11,7 @@ public abstract class Format implements FormatCommand{
     private final String DateTimeFileNamePattern = "yyyyMMdd_HHmm";
     private String FileName;
     private String BoardName;
+    public abstract void exportToFile(String BoardName);
     protected Vector<Topic> topics;
 
     public Format(){
@@ -37,22 +38,10 @@ public abstract class Format implements FormatCommand{
         return sdf.format(new Date());
     };
 
-    
-    public void exportToFile(String BoardName){
-        this.setBoardName(
-            (this.BoardName==null)?BoardName:this.BoardName
-        );
-        this.setFileName();
-        // this.writeData();
-        //[TO DOs].....
-    };
     /**
      * This Method is assumed to be override by subclass.
      * for the reason of different format/layout FileExt
      */
     protected void setFileName(){};
-    public void setData(Vector<Topic> topics){
-        this.topics =topics;
-    };
 
 }
