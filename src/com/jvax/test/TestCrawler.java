@@ -1,4 +1,5 @@
 package com.jvax.test;
+import org.apache.commons.logging.*;
 import com.jvax.crawler.*;
 import com.jvax.format.*;
 import com.jvax.object.*;
@@ -11,6 +12,7 @@ import org.junit.*;
  * 測試各種不同種類爬蟲爬搜功能
  */
 public class TestCrawler {
+    public static Log log = LogFactory.getLog(TestCrawler.class);
 
     /**
      * 主程式進入點
@@ -19,6 +21,7 @@ public class TestCrawler {
         int ArticleCount = 10;
         // String BoardUrl = "https://www.ptt.cc/bbs/Broad_Band/index.html";
         String BoardUrl = "https://www.ptt.cc/bbs/Espannol/index.html";
+        log.info("insert BoardUrl("+BoardUrl+") and ArticleCount("+ArticleCount+") into Crawler!!");
         execute(BoardUrl, ArticleCount);
     }
     
@@ -33,12 +36,17 @@ public class TestCrawler {
         /**
          * 產製PTT爬蟲
          */
+        log.info("Setup Crawler(PTT)!!");
         Crawler crawler = CrawlerFactory.createCrawler(CrawlerParameter.PTT);
         crawler.init();                     /* 執行初始化 */
+        log.info("Crawler Fetch UrlList!!");
         crawler.crawlArticleList(BoardUrl, ArticleCount);         /* 文章列表爬蒐（抓取網址）*/
         Urls=crawler.getUrls();
         for(String Url : Urls)
+        {
+            log.info("Crawling Url("+Url+")!!");
             crawler.crawlArticle(Url);      /* 單一文章爬蒐（顯示抓取內容）*/
+        }
 
         /**
          * 指定輸出格式為XLS，並匯出檔案
