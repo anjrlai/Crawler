@@ -20,16 +20,20 @@
 # Using Apache Ant
 
   compile commands:  
+  
     ant clean  
     ant  
 
   test commands:  
+    
     ant test  
 
   clean-up commands:  
+    
     ant clean
     
   clean xls commands:  
+    
     ant cleanxls
     
 
