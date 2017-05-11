@@ -12,33 +12,30 @@
   - Junit4[http://junit.org/junit4/]
 
 ***
-
-# Env  
+# Create workspace @ c9.io and install openjdk-7-jdk  
   commands:  
+    sudo apt-get update  
+    sudo apt-get install openjdk-7-jdk  
 
-    mkdir dist
-    sudo apt-get update
-    sudo apt-get install openjdk-7-jdk
-    Y
-    export CLASSPATH=".:/home/ubuntu/workspace/lib/junit-4.12.jar:/home/ubuntu/workspace/lib/httpclient-4.5.3.jar:/home/ubuntu/workspace/lib/httpcore-4.4.6.jar:/home/ubuntu/workspace/lib/commons-logging-1.2.jar:/home/ubuntu/workspace/lib/jsoup-1.10.2.jar:/home/ubuntu/workspace/lib/pdfbox-2.0.5.jar:/home/ubuntu/workspace/dist"  
-  
-# Compile  
-  commands:  
+# Using Apache Ant
+
+  compile commands:  
+    ant clean  
+    ant  
+
+  test commands:  
+    ant test  
+
+  clean-up commands:  
+    ant clean
     
-    cd /home/ubuntu/workspace/src  
-    javac -d ../dist com/jvax/test/TestCrawler.java  
-    javac -d ../dist com/jvax/crawler/Crawler.java  
+  clean xls commands:  
+    ant cleanxls
+    
 
-    cd /home/ubuntu/workspace/dist  
-    java com.jvax.test.TestCrawler  
-    cd /home/ubuntu/workspace/src  
-
-# To Dos  
+# Todos  
   - Zero MQ function
   - Key Value Database
   - reverse index
   - elasticsearch Database
 
-# Think  
-
-    Factory Pattern vs Strategy Pattern
