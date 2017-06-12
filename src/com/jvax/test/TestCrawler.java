@@ -22,7 +22,7 @@ public class TestCrawler {
      * 主程式進入點
      */
     public static void main(String[] args) throws Exception{
-        int ArticleCount = 10;
+        int ArticleCount = 25;
         // String BoardUrl = "https://www.ptt.cc/bbs/Broad_Band/index.html";
         String BoardUrl = "https://www.ptt.cc/bbs/Espannol/index.html";
         execute(BoardUrl, ArticleCount);
@@ -37,24 +37,30 @@ public class TestCrawler {
         /**
          * 產製PTT爬蟲
          */
-        // Crawler crawler = CrawlerFactory.createCrawler(CrawlerParameter.PTT);
-        // crawler.init();                                              /* 執行初始化 */
-        // crawler.crawlArticleList(BoardUrl, ArticleCount);            /* 文章列表爬蒐（抓取網址）*/
-        // Urls=crawler.getUrls();
-        // for(String Url : Urls)
-        //     crawler.crawlArticle(Url);                               /* 單一文章爬蒐（顯示抓取內容）*/
-        // /**
-        //  * 指定輸出格式為XLS，並匯出檔案
-        //  */
-        // crawler.setFormat(new XLSFormat());
-        // crawler.exportToFile();
+        Crawler crawler = CrawlerFactory.createCrawler(CrawlerParameter.PTT);
+        crawler.init();                                              /* 執行初始化 */
+        crawler.crawlArticleList(BoardUrl, ArticleCount);            /* 文章列表爬蒐（抓取網址）*/
+        Urls=crawler.getUrls();
+        for(String Url : Urls)
+            crawler.crawlArticle(Url);                               /* 單一文章爬蒐（顯示抓取內容）*/
+        /**
+         * 指定輸出格式為XLS，並匯出檔案
+         */
+        crawler.setFormat(new XLSFormat());
+        crawler.exportToFile();
 
-        Crawler crawler = CrawlerFactory.createCrawler(CrawlerParameter.Mobile01);
-        crawler.init();
+        /**
+         * 產製Mobile01爬蟲
+         */
+        crawler = CrawlerFactory.createCrawler(CrawlerParameter.Mobile01);
+        crawler.init();                                              /* 執行初始化 */
         crawler.crawlArticleList("https://www.mobile01.com/topiclist.php?f=507", 2);
         Urls=crawler.getUrls();
         for(String Url : Urls)
             crawler.crawlArticle(Url);                               /* 單一文章爬蒐（顯示抓取內容）*/
+        /**
+         * 指定輸出格式為XLS，並匯出檔案
+         */
         crawler.setFormat(new XLSFormat());
         crawler.exportToFile();
 

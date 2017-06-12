@@ -108,12 +108,10 @@ public class Mobile01Crawler extends Crawler{
         setArticleCount(ArticleCount);
         parseArticleList();
         
-        System.out.println("ArticleCount::"+ArticleCount+"\tUrlList.size()::"+UrlList.size());
         while(UrlList.size()<ArticleCount)
         {
             setUrl(this.nextPageUrl);
             parseArticleList();
-            System.out.println("ArticleCount::"+ArticleCount+"\tUrlList.size()::"+UrlList.size());
         }
         
         return UrlList;

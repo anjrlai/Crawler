@@ -211,7 +211,6 @@ public abstract class Crawler implements CrawlerCommand{
         this.format = format;
     }
     public void exportToFile(){
-        System.out.println(this.topics.size());
         this.format.setData(this.topics);
         this.format.exportToFile(((Topic)this.topics.get(0)).getBoardName());
     }
