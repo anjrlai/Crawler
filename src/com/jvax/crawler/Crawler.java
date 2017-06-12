@@ -5,10 +5,12 @@ import com.jvax.command.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.io.*;
+import java.net.*;
 import org.apache.http.*;
 import org.apache.http.conn.ssl.*;
 import org.apache.http.impl.client.*;
 import org.apache.http.client.methods.*;
+import org.apache.http.client.config.*;
 import org.apache.http.ssl.SSLContexts;
 import org.apache.http.util.EntityUtils;
 
@@ -18,16 +20,22 @@ import org.apache.http.util.EntityUtils;
  */
 public abstract class Crawler implements CrawlerCommand{
 
+    /**
+     * abstract methods 給繼承的Crawler進行實做 implement
+     */
     protected abstract void parseArticle(String HTML);
     protected abstract void parseArticle();
     protected abstract void parseArticleList(String HTML);
     protected abstract void parseArticleList();
+    
     private Topic topic;
     private Vector<Topic> topics;
     private Reply reply;
     private Date now;
     private Format format;
     private SimpleDateFormat sdf;
+    private HttpHost proxy;
+    private RequestConfig config;
     private String DateTimeStringPattern = "yyyy-MM-dd HH:mm:ss";
     /**
      * 初始化(設定HttpClient, 可抓取SSL)
@@ -38,6 +46,7 @@ public abstract class Crawler implements CrawlerCommand{
 		builder.loadTrustMaterial(null, new TrustSelfSignedStrategy());
 		SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(builder.build());
 		this.httpclient = HttpClients.custom().setSSLSocketFactory(sslsf).build();
+		this.proxy = null;
 		this.topic = new Topic();
 		this.topics = new Vector<Topic>();
 		this.reply = new Reply();
@@ -65,6 +74,11 @@ public abstract class Crawler implements CrawlerCommand{
         return this.Url;
     };
 
+    public void configProxy(String proxyIP, int proxyPort, String proxyType){
+        this.proxy  = new HttpHost(proxyIP, proxyPort, proxyType);
+        this.config = RequestConfig.custom().setProxy(this.proxy).build();
+    };
+
     protected void setTopicUrl(String Url){
         this.topic.setUrl(Url);
     };
@@ -75,6 +89,10 @@ public abstract class Crawler implements CrawlerCommand{
 
     protected void setBoardName(String BoardName){
         this.topic.setBoardName(BoardName);
+    };
+
+    public String getBoardName(){
+        return this.topic.getBoardName();
     };
 
     protected void setSubject(String Subject){
@@ -137,6 +155,18 @@ public abstract class Crawler implements CrawlerCommand{
      */
     protected String getResponse() throws Exception{
 	try {
+            /* proxy implement */	    
+            // HttpHost proxy = new HttpHost("127.0.0.1", 8080, "http");
+            // RequestConfig config = RequestConfig.custom().setProxy(proxy).build();
+            // HttpHost target = new HttpHost("httpbin.org", 443, "https");
+            // HttpGet request = new HttpGet("/");
+            // request.setConfig(config);
+            // System.out.println("Executing request " + request.getRequestLine() + " to " + target + " via " + proxy);
+            // CloseableHttpResponse response = httpclient.execute(target, request);
+            if(proxy!=null)
+            {
+                
+            }
             this.sleep(2000);
             this.httpget = new HttpGet(this.Url);
 
@@ -167,10 +197,6 @@ public abstract class Crawler implements CrawlerCommand{
     public Vector<Topic> getTopics(){
         return this.topics;
     }
-    public void showTopicReplies(){
-        // System.out.println(this.topic.getSubject());
-    }
-
 
     public final void sleep(long milliseconds) throws Exception 
     {
@@ -185,6 +211,7 @@ public abstract class Crawler implements CrawlerCommand{
         this.format = format;
     }
     public void exportToFile(){
+        System.out.println(this.topics.size());
         this.format.setData(this.topics);
         this.format.exportToFile(((Topic)this.topics.get(0)).getBoardName());
     }

@@ -9,7 +9,7 @@ import com.jvax.crawler.appledaily.*;
  * 
  */
 public class CrawlerFactory {
-
+    private CrawlerFactory() {};
     public static Crawler createCrawler(int CrawlerTypeID){
         switch(CrawlerTypeID)
         {

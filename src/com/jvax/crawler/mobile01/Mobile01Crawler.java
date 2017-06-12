@@ -18,14 +18,23 @@ public class Mobile01Crawler extends Crawler{
     private String test_url_list         = "https://www.mobile01.com/topiclist.php?f=507";
     private final String WebpageBase     = "https://www.mobile01.com/";
     private String nextPageUrl           = null;
+    private String ListUrl               = null;
+    private int ArticleCount             = 30;
     private int UrlListLimit             = 100;
     private Hashtable<String, String> UrlList;
+    private Vector<String> Urls;
     /**
      * Mobile01網站tokens
      */
+    private String hyperlink             = "href";
     private String boardname_token       = "title";
     private String article_token         = "article";
+    private String space_token           = " ";
 
+    private String rlistcontainer_token  = "td.subject";
+    private String title_a_token         = "a.topic_gen";
+    private String btn_group_token       = "div.pagination";
+    private String btn_token             = "span.disable";
     private String postdate_token        = "div.date";
     private String content_token         = "div.single-post-content";
 
@@ -43,12 +52,16 @@ public class Mobile01Crawler extends Crawler{
      */
     private String filterPattern = "https://www.mobile01.com[-a-zA-Z0-9+@#/=~_|.;\\p{Punct}]*";
     private String MetasStr;
+    private int TotalPage = -1;
+    private int CurrentPage = -1;
 
     /**
      * 初始化
      */
     public void init() throws Exception{
         super.init();
+        this.UrlList = new Hashtable<String, String>();
+        this.Urls    = new Vector<String>();
     }
 
     /**
@@ -68,6 +81,7 @@ public class Mobile01Crawler extends Crawler{
     public void crawlArticle(String Url){
         Url=filterUrl(Url);
         setUrl(Url);
+        super.setTopicUrl(Url);
         parseArticle();
         while(nextPageUrl!=null)
         {
@@ -87,11 +101,35 @@ public class Mobile01Crawler extends Crawler{
         parseArticleList();
         return UrlList;
     };
+
     public Hashtable<String, String> crawlArticleList(String Url, int ArticleCount){
-        return null;
+        setListUrl(Url);
+        // setUrl(Url);
+        setArticleCount(ArticleCount);
+        parseArticleList();
+        
+        System.out.println("ArticleCount::"+ArticleCount+"\tUrlList.size()::"+UrlList.size());
+        while(UrlList.size()<ArticleCount)
+        {
+            setUrl(this.nextPageUrl);
+            parseArticleList();
+            System.out.println("ArticleCount::"+ArticleCount+"\tUrlList.size()::"+UrlList.size());
+        }
+        
+        return UrlList;
     };
 
-    public Vector<String> getUrls(){return null;};  
+    public Vector<String> getUrls(){
+        Enumeration names;
+        String key;
+        names = this.UrlList.keys();
+        this.Urls.removeAllElements();
+        while(names.hasMoreElements()) {
+                key = (String) names.nextElement();
+                this.Urls.addElement((String)UrlList.get(key));
+        }
+        return this.Urls;
+    };  
 
     private String fetchUrl(){
         return this.test_url;
@@ -99,6 +137,10 @@ public class Mobile01Crawler extends Crawler{
     };
 
     protected void setUrl(String Url){
+        super.setUrl(Url);
+    }
+    private void setListUrl(String Url){
+        this.ListUrl = Url;
         super.setUrl(Url);
     }
     protected String getResponse(){
@@ -139,6 +181,7 @@ public class Mobile01Crawler extends Crawler{
 			String ArticleContent = chopArticleContent(article);
 			String quote = chopArticleQuote(article);
 			ArticleContent=(quote.length()==0)?ArticleContent:ArticleContent.replace(quote, "q["+quote+"]");
+// 			System.out.println(ArticleContent);
             if(FloorNum==1)
             {
                 this.setUserId(chopUserId(article));
@@ -167,6 +210,10 @@ public class Mobile01Crawler extends Crawler{
 			    nextPageUrl=WebpageBase+""+link.attr("href");
             }
 		}
+		if(this.nextPageUrl==null)
+		{
+		    this.addToContainer();
+		}
     }
     protected void parseArticleList(){
         try{
@@ -177,10 +224,35 @@ public class Mobile01Crawler extends Crawler{
     }
     protected void parseArticleList(String HTML){
 		this.xmlDoc = Jsoup.parse(HTML);
+		parseArticleUrls();
+		parseTotalPage();
         //[ToDos].......
         //..............
         //..............
     }
+    private void parseArticleUrls(){
+		Elements r_list = xmlDoc.select(rlistcontainer_token);
+        Elements articles = r_list.select(title_a_token);
+        for (Element article : articles)
+        {
+          if(UrlList.size()< ArticleCount)
+          {
+            System.out.println("::"+article.text() +"\t"+ WebpageBase+article.attr(hyperlink));
+            UrlList.put(article.text(),WebpageBase+article.attr(hyperlink));
+            // Urls.addElement(WebpageBase+article.attr(hyperlink));
+          }
+        }        
+    };
+    private void parseNextPage(){
+    };
+    private void parseTotalPage(){
+		Elements btns = xmlDoc.select(btn_group_token);
+        Element btn = btns.get(btns.size()-1);
+        String[] PageID = btn.text().split(space_token);
+        this.CurrentPage = Integer.parseInt(btn.select(btn_token).text());
+        this.TotalPage = Integer.parseInt(PageID[PageID.length-1]);
+        this.nextPageUrl = this.ListUrl+"&p="+(this.CurrentPage+1);
+    };
     
     private String skipMetaString(String Content, String MetaString){
         return Content=(Content.indexOf(MetaString)>-1)?Content.substring(Content.indexOf(MetaString)+MetaString.length(), Content.length()):Content;
@@ -230,6 +302,14 @@ public class Mobile01Crawler extends Crawler{
     private String chopSubject(Element article){
         return xmlDoc.select(subject_token).text();
     }
-    
+    private void setArticleCount(int ArticleCount){
+        this.ArticleCount = ArticleCount;
+    }
+    private int getArticleCount(){
+        return this.ArticleCount;
+    }
+    public void addToContainer(){
+        super.addTopic();
+    }
 
 }
