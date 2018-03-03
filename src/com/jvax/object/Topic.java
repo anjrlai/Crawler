@@ -20,12 +20,14 @@ public class Topic {
 	private String CrawledDate;
 	private Vector Replies;
 	private String HitCountString;
+	private String delimeter;
 	
 
 	private String insertSQL;
 	private String updateSQL;
 
 	public Topic() {
+		this.delimeter = ",";
 		this.Replies = new Vector();
 	}
 
@@ -143,14 +145,35 @@ public class Topic {
 	}
 	
 	
+	public String toString(String delimeter)
+	{
+		String temp = "";
+		for(int i = 0 ; i < this.Replies.size(); i++)
+		{
+			temp+="[R"+i+"]UserId:"+((Reply)this.Replies.get(i)).getUserId()+delimeter+
+			      "[R"+i+"]Content:"+((Reply)this.Replies.get(i)).getContent()+delimeter+
+			      "[R"+i+"]PostDate:"+((Reply)this.Replies.get(i)).getPostDate()+delimeter+
+			      "[R"+i+"]CrawledDate:"+((Reply)this.Replies.get(i)).getCrawledDate()+delimeter+
+			      "";
+		}
+		return ""+this.PostDate+delimeter+
+		""+this.UserId+delimeter+
+		""+this.BoardName+delimeter+
+		""+this.Subject+delimeter+
+		""+this.Url+delimeter+
+		""+this.ReplyCount+delimeter+
+		""+this.Content+delimeter+
+		""+temp+
+		"";
+	}	
 	public String toString()
 	{
-		return ""+this.PostDate+","+
-		""+this.UserId+","+
-		""+this.BoardName+","+
-		""+this.Subject+","+
-		""+this.Url+","+
-		""+this.ReplyCount+","+
+		return ""+this.PostDate+this.delimeter+
+		""+this.UserId+this.delimeter+
+		""+this.BoardName+this.delimeter+
+		""+this.Subject+this.delimeter+
+		""+this.Url+this.delimeter+
+		""+this.ReplyCount+this.delimeter+
 		""+this.Content+"";
 	}	
 	public String getInsertSQL()

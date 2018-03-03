@@ -1,4 +1,5 @@
 package com.jvax.format;
+import org.apache.commons.logging.*;
 import com.jvax.object.*;
 import jxl.*;
 import jxl.write.*;
@@ -11,6 +12,7 @@ import java.lang.reflect.*;
  * 
  */
 public class XLSFormat extends Format{
+    private static final Log LOGGER = LogFactory.getLog(XLSFormat.class);
 
     public XLSFormat(){
         super();
@@ -37,14 +39,27 @@ public class XLSFormat extends Format{
     private void setHeaders(Hashtable<String, String> headers){
         this.headers = headers;
     }
+    private void writeHeaders(){
+    try {
+        this.label = new Label(0, 0, "User");
+        this.sheet.addCell(label);
+        this.label = new Label(1, 0, "Subject");
+        this.sheet.addCell(label);
+        this.label = new Label(2, 0, "URL");
+        this.sheet.addCell(label);
+        } catch(WriteException we) {
+	        we.printStackTrace();
+        }
+    }   
     private void writeData(){
         int id = 1;
         this.createSheet("總表", 0);
         if(this.topics!=null)
         {
+            this.writeHeaders();
             try {
                     for (Topic topic : topics){
-                    // System.out.println((String)topic.getSubject());
+                    System.out.println(topic.toString("\n"));
                     label = new Label(0, id, (String)topic.getUserId());
                     this.sheet.addCell(label);
                     label = new Label(1, id, (String)topic.getSubject());
