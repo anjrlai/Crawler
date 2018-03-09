@@ -14,9 +14,17 @@
 ***
 # Create workspace @ c9.io and install openjdk-7-jdk  
   commands:  
-  
     sudo apt-get update  
     sudo apt-get install openjdk-7-jdk  
+***
+# PTT using java version 8 modify apt-get sourcelist first then exec apt-get update
+  commands:  
+    sudo nano /etc/apt/sources.list
+    deb http://ppa.launchpad.net/natecarlson/maven3/ubuntu precise main
+    deb-src http://ppa.launchpad.net/natecarlson/maven3/ubuntu precise main    
+    sudo apt-get update
+    sudo apt-get install oracle-java8-installer
+  
 
 # Using Apache Ant
 
