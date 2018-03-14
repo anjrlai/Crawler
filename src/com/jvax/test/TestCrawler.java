@@ -22,7 +22,7 @@ public class TestCrawler {
      * 主程式進入點
      */
     public static void main(String[] args) throws Exception{
-        int ArticleCount = 25;
+        int ArticleCount = 10;
         // String BoardUrl = "https://www.ptt.cc/bbs/Broad_Band/index.html";
         String BoardUrl = "https://www.ptt.cc/bbs/Espannol/index.html";
         execute(BoardUrl, ArticleCount);
@@ -46,23 +46,22 @@ public class TestCrawler {
         /**
          * 指定輸出格式為XLS，並匯出檔案
          */
-        crawler.setFormat(new XLSFormat());
+        crawler.setFormat(new XLSXFormat());
         crawler.exportToFile();
-
         /**
          * 產製Mobile01爬蟲
          */
-        crawler = CrawlerFactory.createCrawler(CrawlerParameter.Mobile01);
-        crawler.init();                                              /* 執行初始化 */
-        crawler.crawlArticleList("https://www.mobile01.com/topiclist.php?f=507", 2);
-        Urls=crawler.getUrls();
-        for(String Url : Urls)
-            crawler.crawlArticle(Url);                               /* 單一文章爬蒐（顯示抓取內容）*/
-        /**
-         * 指定輸出格式為XLS，並匯出檔案
-         */
-        crawler.setFormat(new XLSFormat());
-        crawler.exportToFile();
+        // crawler = CrawlerFactory.createCrawler(CrawlerParameter.Mobile01);
+        // crawler.init();                                              /* 執行初始化 */
+        // crawler.crawlArticleList("https://www.mobile01.com/topiclist.php?f=507", 10);
+        // Urls=crawler.getUrls();
+        // for(String Url : Urls)
+        //     crawler.crawlArticle(Url);                               /* 單一文章爬蒐（顯示抓取內容）*/
+        // /**
+        //  * 指定輸出格式為XLS，並匯出檔案
+        //  */
+        // crawler.setFormat(new XLSXFormat());
+        // crawler.exportToFile();
 
     };
 

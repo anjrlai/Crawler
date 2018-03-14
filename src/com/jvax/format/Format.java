@@ -19,7 +19,6 @@ public abstract class Format implements FormatCommand{
     }
     public void setFileName(String FileName){
         this.FileName = FileName;
-        System.out.println(this.FileName);
     };
     
     protected String getFileName(){
@@ -35,6 +34,8 @@ public abstract class Format implements FormatCommand{
 
     protected String getDateTimeFileName(){
         SimpleDateFormat sdf = new SimpleDateFormat(DateTimeFileNamePattern);
+        TimeZone zone = TimeZone.getDefault();
+        sdf.setTimeZone(zone.getTimeZone("GMT+8:00")); //改成台灣時間 GMT+8
         return sdf.format(new Date());
     };
 
