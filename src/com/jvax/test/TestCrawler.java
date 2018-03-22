@@ -24,7 +24,7 @@ public class TestCrawler {
     public static void main(String[] args) throws Exception{
         int ArticleCount = 10;
         // String BoardUrl = "https://www.ptt.cc/bbs/Broad_Band/index.html";
-        String BoardUrl = "https://www.ptt.cc/bbs/Espannol/index.html";
+        String BoardUrl = "https://www.ptt.cc/bbs/MobileComm/index.html";
         execute(BoardUrl, ArticleCount);
     }
 
@@ -43,11 +43,29 @@ public class TestCrawler {
         Urls=crawler.getUrls();
         for(String Url : Urls)
             crawler.crawlArticle(Url);                               /* 單一文章爬蒐（顯示抓取內容）*/
+
+        crawler.setFormat(new XLSXFormat());                        /* 指定輸出格式為XLSX */
+        // To-Do 思考要不要將Format改成工廠模式...
+        
         /**
-         * 指定輸出格式為XLS，並匯出檔案
+         * 指定輸出欄位
          */
-        crawler.setFormat(new XLSXFormat());
-        crawler.exportToFile();
+        Vector<String> outCols = new Vector<String>();
+        outCols.addElement("UserId");                               /* 文章作者 */
+        outCols.addElement("BoardName");                            /* 文章板名 */
+        outCols.addElement("Subject");                              /* 文章主旨 */
+        outCols.addElement("Url");                                  /* 文章網址 */
+        outCols.addElement("Content");                              /* 文章內文 */
+        outCols.addElement("ReplyCount");                           /* 文章回應數 */
+        outCols.addElement("CrawledDate");                          /* 文章抓取日期 */
+
+        crawler.setOutputColumn(outCols);
+        // To-Do 是否將爬蟲的功能簡化，輸出欄位的問題應該是Format的工作...
+        
+        crawler.exportToFile();                                     /* 匯出檔案 */
+
+
+
         /**
          * 產製Mobile01爬蟲
          */

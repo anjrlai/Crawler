@@ -13,9 +13,11 @@ public abstract class Format implements FormatCommand{
     private String BoardName;
     public abstract void exportToFile(String BoardName);
     protected Vector<Topic> topics;
+    protected Vector<String> columns;
 
     public Format(){
         topics = new Vector<Topic>();
+        columns = new Vector<String>();
     }
     public void setFileName(String FileName){
         this.FileName = FileName;
@@ -30,6 +32,12 @@ public abstract class Format implements FormatCommand{
     };
     protected String getBoardName(){
         return this.BoardName;
+    };
+    public void setOutputColumn(Vector<String> columns){
+        this.columns = columns;
+    };
+    public Vector<String> getOutputColumn(){
+        return this.columns;
     };
 
     protected String getDateTimeFileName(){

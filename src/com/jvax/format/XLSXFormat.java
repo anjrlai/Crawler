@@ -1,9 +1,12 @@
 package com.jvax.format;
+import java.lang.reflect.Method;
 import org.apache.commons.logging.*;
 import com.jvax.object.*;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.ClientAnchor;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Comment;
 import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Drawing;
@@ -79,27 +82,31 @@ public class XLSXFormat extends Format{
     }    
     private void writeData(){
         int id = 0;
-         this.createSheet("總表");
+        Class c = null;
+        this.createSheet("總表");
         if(this.topics!=null)
         {
-    //         this.writeHeaders();
             try {
                     for (Topic topic : topics){
-                    Row row = this.sheet.createRow((short) 2+id);
-                    Cell cell = row.createCell((short) 2);
-                    cell.setCellValue((String)topic.getSubject());
-
-    //                 System.out.println(topic.toString("\n"));
-    //                 label = new Label(0, id, (String)topic.getUserId());
-    //                 this.sheet.addCell(label);
-    //                 label = new Label(1, id, (String)topic.getSubject());
-    //                 this.sheet.addCell(label);
-    //                 label = new Label(2, id, (String)topic.getUrl());
-    //                 this.sheet.addCell(label);
-    //                 // label = new Label(3, id, (String)topic.class.getMethod("getCrawledDate").invoke());
-    //                 // this.sheet.addCell(label);
+                    Row row = this.sheet.createRow((short) 0+id);
+                    Cell cell = row.createCell((short) 0);
+//                    cell.setCellValue((String)topic.getSubject());
+// System.out.println("OutputColumn size::"+(super.getOutputColumn()).size());
+                    c = Class.forName("com.jvax.object.Topic");
+                    Vector<String> columns = super.getOutputColumn();
+                    for (int j = 0 ; j < columns.size() ; j ++)
+                    {
+                      Method m = c.getMethod("get"+columns.get(j), null);
+                      cell = row.createCell((short) j);
+                    //   System.out.println(m.invoke(topic, null).getClass().getName());
+                      if(m.invoke(topic, null) instanceof String)
+                      cell.setCellValue((String)m.invoke(topic, null));
+                      else
+                      cell.setCellValue((Integer)m.invoke(topic, null));
+                    }
                     id++;
                 }
+                this.sheet.autoSizeColumn(0);
             } catch(Exception e) {
 			    e.printStackTrace();
             }
