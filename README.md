@@ -1,6 +1,7 @@
 # Crawler
   [prototype]  
     Using apache httpclient and jsoup to crawl internet. such as ptt.cc & mobile01.com
+    add Format Factory Pattern
 
 #Libraries
 
@@ -20,11 +21,7 @@
 # PTT using java version 8 modify apt-get sourcelist first then exec apt-get update
   commands:
   
-    sudo nano /etc/apt/sources.list
-    deb http://ppa.launchpad.net/natecarlson/maven3/ubuntu precise main
-    deb-src http://ppa.launchpad.net/natecarlson/maven3/ubuntu precise main
-    deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main
-    deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main
+    sudo add-apt-repository ppa:webupd8team/java
     sudo apt-get update
     sudo apt-get install oracle-java8-installer
   
