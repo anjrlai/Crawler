@@ -7,6 +7,8 @@ import java.util.*;
 import java.io.*;
 import java.net.*;
 import org.apache.http.*;
+import org.apache.http.protocol.*;
+import org.apache.http.impl.cookie.*;
 import org.apache.http.conn.ssl.*;
 import org.apache.http.impl.client.*;
 import org.apache.http.client.methods.*;
@@ -37,15 +39,25 @@ public abstract class Crawler implements CrawlerCommand{
     private HttpHost proxy;
     private RequestConfig config;
     private String DateTimeStringPattern = "yyyy-MM-dd HH:mm:ss";
+    protected Vector<String> columns; 
     /**
      * 初始化(設定HttpClient, 可抓取SSL)
      */
+    @SuppressWarnings("deprecation")
     public void init() throws Exception{
         // TopicBucket = new Vector<Topic>();
 		SSLContextBuilder builder = new SSLContextBuilder();
 		builder.loadTrustMaterial(null, new TrustSelfSignedStrategy());
 		SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(builder.build());
-		this.httpclient = HttpClients.custom().setSSLSocketFactory(sslsf).build();
+
+
+    BasicCookieStore cookieStore = new BasicCookieStore();
+    BasicClientCookie cookie = new BasicClientCookie("over18", "1");
+    cookie.setDomain("ptt.cc");
+    cookie.setPath("/");
+    cookieStore.addCookie(cookie);
+     this.httpclient = HttpClientBuilder.create().setDefaultCookieStore(cookieStore).build();
+// 		this.httpclient = HttpClients.custom().setSSLSocketFactory(sslsf).build();
 		this.proxy = null;
 		this.topic = new Topic();
 		this.topics = new Vector<Topic>();
@@ -136,6 +148,8 @@ public abstract class Crawler implements CrawlerCommand{
     };
 
     protected void addReply(){
+        // Vector<Reply> Replies = (Vector)this.topic.getReplies();
+        // System.out.println("addReply()!!! Replies.size::"+Replies.size());
         this.topic.addReply(this.reply);
         this.reply = new Reply();
     };
@@ -163,13 +177,18 @@ public abstract class Crawler implements CrawlerCommand{
             // request.setConfig(config);
             // System.out.println("Executing request " + request.getRequestLine() + " to " + target + " via " + proxy);
             // CloseableHttpResponse response = httpclient.execute(target, request);
+
+
+    // this.httpclient = HttpClientBuilder.create().setDefaultCookieStore(cookieStore).build();
+    
+    
             if(proxy!=null)
             {
                 
             }
             this.sleep(2000);
             this.httpget = new HttpGet(this.Url);
-
+            this.httpget.setHeader("Cookie", "over18=1");
             this.response = this.httpclient.execute(httpget);
             try {
                 HttpEntity entity = this.response.getEntity();
@@ -197,6 +216,9 @@ public abstract class Crawler implements CrawlerCommand{
     public Vector<Topic> getTopics(){
         return this.topics;
     }
+    public Topic getTopic(){
+        return this.topic;
+    }
 
     public final void sleep(long milliseconds) throws Exception 
     {
@@ -210,6 +232,15 @@ public abstract class Crawler implements CrawlerCommand{
     public void setFormat(Format format){
         this.format = format;
     }
+    public void setOutputColumn(Vector<String> columns){
+        this.columns = columns;
+        if(this.format != null)
+        this.format.setOutputColumn(columns);
+    };
+    public Vector<String> getOutputColumn(){
+        return this.columns;
+    };
+
     public void exportToFile(){
         this.format.setData(this.topics);
         this.format.exportToFile(((Topic)this.topics.get(0)).getBoardName());

@@ -33,9 +33,10 @@ public abstract class Format implements FormatCommand{
     protected String getBoardName(){
         return this.BoardName;
     };
-    public void setOutputColumn(Vector<String> columns){
-        this.columns = columns;
-    };
+
+    // public void setOutputColumn(Vector<String> columns){
+    //     this.columns = columns;
+    // };
     public Vector<String> getOutputColumn(){
         return this.columns;
     };

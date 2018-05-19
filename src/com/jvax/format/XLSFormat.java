@@ -121,4 +121,7 @@ public class XLSFormat extends Format{
         this.topics =topics;
     };
 
+    @Override
+    public void setOutputColumn(Vector<String> columns)
+    {};
 }

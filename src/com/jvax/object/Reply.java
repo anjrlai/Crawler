@@ -20,6 +20,7 @@ public class Reply {
 	{
 		this.MD5Hash = MD5Hash;
 	}
+	
 	public String getMD5Hash()
 	{
 		return this.MD5Hash;

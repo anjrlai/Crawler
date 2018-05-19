@@ -26,10 +26,13 @@
   </target>
   
   <target name="compile" depends="init" description="compile the source " >
-    <javac srcdir="${src}" destdir="${build}">
+    <javac srcdir="${src}" destdir="${build}" includeAntRuntime="false">
       <classpath>
         <path refid="classpath" />
       </classpath>
+      <!-- javac requires that -Xmx and -Xms be prefixed with -J -->
+      <!--<compilerarg line="-Xlint:deprecation" />-->
+      <compilerarg line="-Xlint:unchecked" />
     </javac>
   </target>
 
@@ -53,9 +56,34 @@
     </java>  
   </target>
 
+  <target name="testRegExp" depends="compile" description="Unit Test" >
+<!--    <java jar="${dist}/JavaCrawler.jar" fork="true" failonerror="true" maxmemory="128m">  -->
+    <java classname="com.jvax.test.TestRegExp" fork="true" failonerror="true" maxmemory="128m">
+      <classpath>
+        <pathelement location="${build}" />
+        <path refid="classpath" />
+      </classpath>
+      <arg value="${input}"/>
+      <arg line="-Djava.util.logging.config.file=${lib}/commons-logging.properties"/>
+    </java>  
+  </target>
+
+  <target name="testCSV" depends="compile" description="Unit Test" >
+<!--    <java jar="${dist}/JavaCrawler.jar" fork="true" failonerror="true" maxmemory="128m">  -->
+    <java classname="com.jvax.test.BasicCSVReader" fork="true" failonerror="true" maxmemory="128m">
+      <classpath>
+        <pathelement location="${build}" />
+        <pathelement location="${dist}" />
+        <path refid="classpath" />
+      </classpath>
+      <arg line="-Djava.util.logging.config.file=${lib}/commons-logging.properties"/>
+    </java>  
+  </target>
+
+
   <target name="run" depends="build" description="Run" >
-    <java jar="${dist}/JavaCrawler.jar" fork="true" failonerror="true" maxmemory="128m">  
-    <!--<java classname="com.jvax.test.TestCrawler" fork="true" failonerror="true" maxmemory="128m">-->
+    <!--<java jar="${dist}/JavaCrawler.jar" fork="true" failonerror="true" maxmemory="128m">  -->
+    <java classname="com.jvax.test.TestCrawler" fork="true" failonerror="true" maxmemory="128m">
       <classpath>
         <pathelement location="${build}" />
         <pathelement location="${dist}" />
@@ -64,6 +92,20 @@
       <arg line="-Djava.util.logging.config.file=${lib}/commons-logging.properties"/>
     </java>  
     <echo message="execute the jar file!"/>
+  </target>
+
+  <target name="runWithXls" depends="build" description="RunWithXls" >
+    <java classname="com.jvax.test.TestCrawlerWithUrl" fork="true" failonerror="true" maxmemory="128m">
+      <classpath>
+        <pathelement location="${build}" />
+        <pathelement location="${dist}" />
+        <path refid="classpath" />
+      </classpath>
+      <arg value="${arg0}"/>
+      <!--<arg value="20180518.xlsx"/>-->
+      <arg line="-Djava.util.logging.config.file=${lib}/commons-logging.properties"/>
+    </java>  
+    <echo message="execute com.jvax.test.TestCrawlerWithUrl!"/>
   </target>
 
   <target name="clean"  description="clean up" >
@@ -77,8 +119,17 @@
     <delete>
       <fileset dir="${basedir}">
         <include name="*.xls"/>
+        <include name="*.xlsx"/>
       </fileset>
     </delete>
     <echo message="clean up xls files @${basedir} !"/>
+  </target>
+  <target name="cleanpdf"  description="clean up pdf files!" >
+    <delete>
+      <fileset dir="${basedir}">
+        <include name="*.pdf"/>
+      </fileset>
+    </delete>
+    <echo message="clean up pdf files @${basedir} !"/>
   </target>
 </project>

@@ -7,7 +7,7 @@ package com.jvax.format;
 public class FormatFactory {
     private FormatFactory() {};
     public static Format createFormat(int FormatTypeID){
-        switch(CrawlerTypeID)
+        switch(FormatTypeID)
         {
             case FormatParameter.XLS:
                 return new XLSFormat();

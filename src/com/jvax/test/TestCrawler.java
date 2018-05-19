@@ -23,8 +23,8 @@ public class TestCrawler {
      */
     public static void main(String[] args) throws Exception{
         int ArticleCount = 10;
-        // String BoardUrl = "https://www.ptt.cc/bbs/Broad_Band/index.html";
-        String BoardUrl = "https://www.ptt.cc/bbs/MobileComm/index.html";
+        String BoardUrl = "https://www.ptt.cc/bbs/Broad_Band/index.html";
+        // String BoardUrl = "https://www.ptt.cc/bbs/MobileComm/index.html";
         execute(BoardUrl, ArticleCount);
     }
 

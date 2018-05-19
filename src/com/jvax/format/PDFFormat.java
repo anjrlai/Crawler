@@ -23,8 +23,16 @@ public class PDFFormat extends Format{
     public String getFileName(){
         return super.getFileName();
     };
+    // @Override
+    // public void setHeader(){
+    // };
+    @Override
+    public void setOutputColumn(Vector<String> columns)
+    {};
+    @Override
     public void exportToFile(String BoardName){
     };
+    @Override
     public void setData(Vector<Topic> topics){
         this.topics =topics;
     };

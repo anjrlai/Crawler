@@ -10,5 +10,6 @@ public interface FormatCommand extends Command{
 
     public void setData(Vector<Topic> topics);
 
-    
+    public void setOutputColumn(Vector<String> columns);
+
 }

@@ -2,6 +2,7 @@ package com.jvax.crawler.ptt;
 import java.util.*;
 import java.util.regex.*;
 import com.jvax.crawler.Crawler;
+import com.jvax.object.DAO;
 import org.jsoup.*;
 import org.jsoup.nodes.*;
 import org.jsoup.select.*;
@@ -50,18 +51,20 @@ public class PTTCrawler extends Crawler{
         super.init();
         UrlList = new Hashtable<String, String>();
         Urls    = new Vector<String>();
+        DAO dao = DAO.getInstance();
     }
 
     /**
      * 指令組成Compose [過濾網址、設定網址、抓取網頁]
      */
+/*
     public void crawlArticle(){
         String Url=filterUrl(fetchUrl());
         setUrl(Url);
         super.setTopicUrl(Url);
         parseArticle();
     };
-
+*/
     public void crawlArticle(String Url){
         Url=filterUrl(Url);
         setUrl(Url);
@@ -73,6 +76,7 @@ public class PTTCrawler extends Crawler{
         super.addTopic();
     }
 
+/*
     public Hashtable<String, String> crawlArticleList(){
         setUrl(this.test_url_list);
         parseArticleList();
@@ -94,6 +98,7 @@ public class PTTCrawler extends Crawler{
         }
         return UrlList;
     };
+ */
     public Hashtable<String, String> crawlArticleList(String Url, int ArticleCount){
         setUrl(Url);
         setArticleCount(ArticleCount);
@@ -142,6 +147,7 @@ public class PTTCrawler extends Crawler{
     }
 
     protected void parseArticle(String HTML){
+// 		System.out.println("parseArticle");
 		this.xmlDoc = Jsoup.parse(HTML);
         parseMetaData();
         parseContent();
@@ -179,6 +185,7 @@ public class PTTCrawler extends Crawler{
 		Elements btns = xmlDoc.select(btn_group_token);
         this.nextPageUrl = WebpageBase+btns.get(1).attr(hyperlink);
     };
+     
 
     /**
      * 抓出上方Meta訊息

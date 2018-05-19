@@ -37,14 +37,14 @@ public class TestCrawlerWithUrl {
         
     }
     public static Crawler createCrawler(String Url) throws Exception {
-        // if(Url.indexOf(CrawlerParameter.Url_PTT)>0)
-        // {
-        //     return CrawlerFactory.createCrawler(CrawlerParameter.PTT);
-        // }
-        // if(Url.indexOf(CrawlerParameter.Url_Mobile01)>0)
-        // {
-        //     return CrawlerFactory.createCrawler(CrawlerParameter.Mobile01);
-        // }
+        if(Url.indexOf(CrawlerParameter.Url_PTT)>0)
+        {
+            return CrawlerFactory.createCrawler(CrawlerParameter.PTT);
+        }
+        if(Url.indexOf(CrawlerParameter.Url_Mobile01)>0)
+        {
+            return CrawlerFactory.createCrawler(CrawlerParameter.Mobile01);
+        }
         if(Url.indexOf(CrawlerParameter.Url_Gamer)>0)
         {
             return CrawlerFactory.createCrawler(CrawlerParameter.Gamer);
@@ -94,8 +94,10 @@ public class TestCrawlerWithUrl {
 					if(LastReplyPostedDate!=null)
 					{
 					    Newcell = row.getCell(2);
-					    Newcell.setCellValue(LastReplyPostedDate);
+					    if(!LastReplyPostedDate.equals(""))Newcell.setCellValue(LastReplyPostedDate);
+					    LastReplyPostedDate="";
 					}
+					
 				}
 				else
 				{

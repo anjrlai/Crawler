@@ -18,9 +18,10 @@ public class Topic {
 	private String Url;
 	private int ReplyCount;
 	private String CrawledDate;
-	private Vector Replies;
+	private Vector<Reply> Replies;
 	private String HitCountString;
 	private String delimeter;
+	private String LastReplyPostedDate;
 	
 
 	private String insertSQL;
@@ -28,16 +29,35 @@ public class Topic {
 
 	public Topic() {
 		this.delimeter = ",";
-		this.Replies = new Vector();
+		this.Replies = new Vector<Reply>();
 	}
 
-	public void setReplies(Vector Replies)
+	public String getLastReplyPostedDate()
+	{
+		return this.LastReplyPostedDate;
+	}
+	public void setLastReplyPostedDate(String LastReplyPostedDate)
+	{
+		if(LastReplyPostedDate.trim().equals("")) {}
+		else
+		this.LastReplyPostedDate = LastReplyPostedDate;
+	}
+
+
+	
+	public Reply getLastReply(){
+		// System.out.println(this.Replies.size());
+		return this.Replies.get(this.Replies.size()-1);
+	}
+
+	public void setReplies(Vector<Reply> Replies)
 	{
 		this.Replies = Replies;
 	}
 	public void addReply(Reply reply)
 	{
 		this.Replies.addElement(reply);
+		this.setLastReplyPostedDate(reply.getPostDate());
 	}
 	public boolean removeReply(Reply reply)
 	{

@@ -2,6 +2,7 @@ package com.jvax.crawler.mobile01;
 import java.util.*;
 import java.util.regex.*;
 import com.jvax.crawler.Crawler;
+import com.jvax.object.*;
 import org.jsoup.*;
 import org.jsoup.nodes.*;
 import org.jsoup.select.*;
@@ -71,20 +72,25 @@ public class Mobile01Crawler extends Crawler{
         String Url=filterUrl(fetchUrl());
         setUrl(Url);
         parseArticle();
-         while(nextPageUrl!=null)
-         {
+        while(nextPageUrl!=null)
+        {
             setUrl(nextPageUrl);
             parseArticle();
-         }
+        }
+        // Topic temp = super.getTopic();
+        // System.out.println("getReplyCount:::"+temp.getReplyCount());
     };
 
     public void crawlArticle(String Url){
         Url=filterUrl(Url);
         setUrl(Url);
+        
+        // System.out.println("super.setTopicUrl("+Url+");");
         super.setTopicUrl(Url);
         parseArticle();
         while(nextPageUrl!=null)
         {
+            // System.out.println("nextPageUrl::::setUrl("+nextPageUrl+");");
             setUrl(nextPageUrl);
             parseArticle();
         }
@@ -186,6 +192,7 @@ public class Mobile01Crawler extends Crawler{
                 this.setBoardName(chopBoardName(this.xmlDoc));
                 this.setSubject(chopSubject(article));
                 this.setPostDate(chopPostDate(article));
+//                System.out.println("setPostDate("+chopPostDate(article)+");");
                 this.setContent(ArticleContent);
                 this.setCrawledDate();
             }
@@ -195,6 +202,7 @@ public class Mobile01Crawler extends Crawler{
 	    		this.setReplyUserId(article.select("div.fn").text());
 		    	this.setReplyContent(ArticleContent);
                 this.setReplyPostDate(chopPostDate(article));
+                // System.out.println("setPostDate("+chopPostDate(article)+");");
 			    this.setReplyCrawledDate();
     			this.addReply();
 	    		this.setReplyCount(FloorNum-1);

@@ -80,7 +80,7 @@ public class XLSXFormat extends Format{
 	        e.printStackTrace();
         }
     }    
-    private void writeData(){
+private void writeData(){
         int id = 0;
         Class c = null;
         this.createSheet("總表");
@@ -90,19 +90,18 @@ public class XLSXFormat extends Format{
                     for (Topic topic : topics){
                     Row row = this.sheet.createRow((short) 0+id);
                     Cell cell = row.createCell((short) 0);
-//                    cell.setCellValue((String)topic.getSubject());
-// System.out.println("OutputColumn size::"+(super.getOutputColumn()).size());
                     c = Class.forName("com.jvax.object.Topic");
                     Vector<String> columns = super.getOutputColumn();
                     for (int j = 0 ; j < columns.size() ; j ++)
                     {
-                      Method m = c.getMethod("get"+columns.get(j), null);
+                      @SuppressWarnings("unchecked")
+                      Method m = c.getMethod("get"+columns.get(j), new Class[]{});
                       cell = row.createCell((short) j);
-                    //   System.out.println(m.invoke(topic, null).getClass().getName());
-                      if(m.invoke(topic, null) instanceof String)
-                      cell.setCellValue((String)m.invoke(topic, null));
+
+                      if(m.invoke(topic, new Object[]{}) instanceof String)
+                      cell.setCellValue((String)m.invoke(topic, new Object[]{}));
                       else
-                      cell.setCellValue((Integer)m.invoke(topic, null));
+                      cell.setCellValue((Integer)m.invoke(topic, new Object[]{}));
                     }
                     id++;
                 }
@@ -149,4 +148,7 @@ public class XLSXFormat extends Format{
         this.topics =topics;
     };
 
+    @Override
+    public void setOutputColumn(Vector<String> columns)
+    {};
 }
